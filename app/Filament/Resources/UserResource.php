@@ -16,6 +16,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -29,6 +30,11 @@ class UserResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+
+                TextInput::make('country')
+                    ->required()
+                    ->maxLength(255),
+            
                 TextInput::make('email')
                     ->email()
                     ->unique(ignoreRecord: true)
@@ -54,6 +60,7 @@ class UserResource extends Resource
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('email')->searchable(),
+                TextColumn::make('country')->searchable(),
                 TextColumn::make('role')->sortable(),
                 TextColumn::make('created_at')->dateTime(),
             ])

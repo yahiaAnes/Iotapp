@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'role',
+        'country',
         'password',
     ];
 
@@ -46,4 +47,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    protected $attributes = [
+        'role' => 'user',
+    ];
+    
+    public static array $roles = ['admin', 'user'];
+    
+    public function setRoleAttribute($value)
+    {
+        if (!in_array($value, self::$roles)) {
+            throw new \InvalidArgumentException("Invalid role: $value");
+        }
+        $this->attributes['role'] = $value;
+    }
+    
 }
