@@ -1,6 +1,6 @@
 # Laravel Project Setup Guide
 
-## Steps to Clone and Set Up a Laravel Project
+## Steps to Clone and Set Up a Iot application
 
 ### 1. Clone the Repository
 ```bash
@@ -24,19 +24,17 @@ php artisan key:generate
 ```
 
 ### 5. Configure the Database
+- You should create database on your local machine
 - Open the `.env` file and update database credentials:
 ```env
 DB_DATABASE=your_database
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
 ```
-
 ### 6. Run Migrations
 ```bash
 php artisan migrate --seed
 ```
-
-### 7. Install NPM Dependencies (If using Laravel with Frontend)
+- this migrate the database and create user admin compte
+### 7. Install NPM Dependencies (This project is using react ts)
 ```bash
 npm install && npm run dev
 ```
@@ -45,12 +43,15 @@ npm install && npm run dev
 ```bash
 php artisan serve
 ```
+-this should take you to http://127.0.0.1:8000/admin/login
 
 ### 9. Login Credentials (If Seeded)
 ```text
-Email: admin@example.com  
+Email: admin@admin.com 
 Password: password
 ```
+### 10. Change app name
+
 
 ---
 
