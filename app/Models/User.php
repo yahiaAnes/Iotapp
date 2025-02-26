@@ -62,4 +62,7 @@ class User extends Authenticatable
         $this->attributes['role'] = $value;
     }
     
+    public function farms() {
+        return $this->hasMany(Farm::class);
+    }
 }
