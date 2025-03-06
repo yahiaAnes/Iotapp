@@ -28,8 +28,13 @@ class UserPanelProvider extends PanelProvider
         return $panel
             ->id('user')
             ->path('user')
+            ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->profile()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Green,
             ])
             ->spa()
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
