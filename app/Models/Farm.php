@@ -16,10 +16,10 @@ class Farm extends Model
     }
 
     public function sensors() {
-        return $this->hasMany(Sensor::class);
+        return $this->hasMany(Sensors::class);
     }
 
     public function crops() {
-        return $this->hasMany(Crop::class);
+        return $this->hasMany(Crops::class);
     }
 }
