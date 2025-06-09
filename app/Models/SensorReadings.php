@@ -12,6 +12,6 @@ class SensorReadings extends Model
     protected $fillable = ['sensor_id', 'value', 'unit', 'timestamp'];
 
     public function sensor() {
-        return $this->belongsTo(Sensor::class);
+        return $this->belongsTo(Sensors::class);
     }
 }

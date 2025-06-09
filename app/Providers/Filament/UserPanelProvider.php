@@ -19,7 +19,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\User\Widgets\SensorsStats;
 use App\Filament\User\Widgets\IrrigationSystemsStats;
-use App\Filament\User\Widgets\CropsChart;
+use App\Filament\User\Widgets\SoilMoistureChart;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -46,7 +46,7 @@ class UserPanelProvider extends PanelProvider
             ->widgets([
                 IrrigationSystemsStats::class,
                 SensorsStats::class,
-                CropsChart::class,
+                SoilMoistureChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
