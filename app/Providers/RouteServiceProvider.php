@@ -23,12 +23,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            // ✅ تحميل مسارات API
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-            // ✅ تحميل مسارات الويب
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });

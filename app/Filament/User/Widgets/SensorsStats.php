@@ -9,12 +9,11 @@ use App\Models\SensorReadings;
 
 class SensorsStats extends BaseWidget
 {
-    protected static ?int $sort = 2; // ترتيب الودجت
-    protected static ?string $pollingInterval = '10s'; // تحديث تلقائي كل 10 ثواني
+    protected static ?int $sort = 2; 
+    protected static ?string $pollingInterval = '10s'; 
 
     protected function getCards(): array
     {
-        // جلب آخر قراءة صحيحة (تاريخ غير 1970)
         $latestReading = SensorReadings::where('timestamp', '!=', '1970-01-01 00:00:00')
             ->latest('timestamp')
             ->first();

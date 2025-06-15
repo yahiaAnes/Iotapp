@@ -1,45 +1,45 @@
 <?php
-use App\Http\Controllers\CropController;
-
-
-
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-
-use App\Models\BlockchainRequest;
-
-Route::post('/crops/send-to-admin', [CropController::class, 'receiveCropsFromUser'])->name('crops.sendToAdmin');
-Route::get('/admin/crops-review', [CropController::class, 'showCropsForAdmin'])->name('admin.cropsReview');
-Route::post('/admin/crops-upload-blockchain', [CropController::class, 'uploadCropsToBlockchain'])->name('admin.cropsUploadBlockchain');
+use App\Models\Crop;
+use App\Http\Controllers\CropBlockchainController;
+use App\Filament\Pages\SaveInBlockchainPage;
 
 
-Route::post('/admin/save-blockchain/{id}', function ($id) {
-    $request = BlockchainRequest::findOrFail($id);
+Route::post('/admin/save-crop', function (\Illuminate\Http\Request $request) {
+    $cropId = $request->input('crop_id');
 
-    // من هنا تنفذ عملية الحفظ في البلوكشاين
-    // بعد نجاح العملية:
-    $request->is_saved_to_blockchain = true;
-    $request->save();
+    // إما تخزين ID في session:
+    session(['review_crop_id' => $cropId]);
 
-    return redirect()->back()->with('success', 'تم الحفظ في البلوكشاين بنجاح');
-})->name('admin.blockchain.save');
+    // أو تغيير حالته في قاعدة البيانات إلى pending:
+    \App\Models\Crop::where('id', $cropId)->update(['status' => 'pending']);
 
+    return response()->json(['success' => true]);
+});
+
+Route::get('/save-in-blockchain', SaveInBlockchainPage::class)
+    ->name('filament.pages.save-in-blockchain-page');
+
+Route::post('/crops/send-to-admin', [CropBlockchainController::class, 'sendToAdmin']);
+
+Route::get('/admin/review-crops', [CropBlockchainController::class, 'index'])->name('review.crops');
+
+Route::middleware(['auth','can:isAdmin'])->post(
+    '/admin/mark-crop-stored/{crop}',
+    [CropBlockchainController::class,'markStored']
+)->name('mark.crop.stored');
 
 Route::get('/', function () {
     return redirect('/user');
 });
- Route::get('/crop/{id}', [App\Http\Controllers\CropController::class, 'show']);
-// Route::get('/dashboard', function () {
-//     return redirect('/admin');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/crop/{id}', [App\Http\Controllers\CropController::class, 'show']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
 });
 
 require __DIR__.'/auth.php';
@@ -52,6 +52,23 @@ require __DIR__.'/auth.php';
 // use Illuminate\Foundation\Application;
 // use Illuminate\Support\Facades\Route;
 // use Inertia\Inertia;
+// use Illuminate\Http\Request;
+//  use App\Models\Crop;
+
+// use App\Http\Controllers\CropBlockchainController;
+
+// Route::get('/admin/review-crops', [CropBlockchainController::class, 'index'])->name('review.crops');
+
+// // use App\Http\Controllers\CropController;
+
+// // Route::post('/crops/send-to-admin', [CropController::class, 'sendToAdmin'])->middleware('auth');
+
+
+// Route::middleware(['auth', 'can:isAdmin'])->post(
+//     '/admin/mark-crop-stored/{crop}',
+//     [CropBlockchainController::class, 'markStored']
+// )->name('mark.crop.stored');
+
 
 // Route::get('/', function () {
 //     return redirect('/user');
@@ -67,5 +84,72 @@ require __DIR__.'/auth.php';
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
 // });
+// // Route::middleware(['auth','can:isAdmin'])->post(
+// //     '/admin/mark-crop-stored/{crop}',
+// //     [CropBlockchainController::class,'markStored']
+// // );
+// require __DIR__.'/auth.php';
 
-// require __DIR__.'/auth.php'; -->
+
+
+
+// <?php
+
+// use App\Http\Controllers\ProfileController;
+// use Illuminate\Foundation\Application;
+// use Illuminate\Support\Facades\Route;
+// use Inertia\Inertia;
+// use Illuminate\Http\Request;
+//  use App\Models\Crop;
+
+// use App\Http\Controllers\CropBlockchainController;
+
+// Route::get('/admin/review-crops', [CropBlockchainController::class, 'index'])->name('review.crops');
+
+// // use App\Http\Controllers\CropController;
+
+// // Route::post('/crops/send-to-admin', [CropController::class, 'sendToAdmin'])->middleware('auth');
+
+
+// Route::post('/admin/mark-crop-stored/{id}', function ($id) {
+//     $crop = Crop::findOrFail($id);
+//     $crop->status = 'stored';
+//     $crop->save();
+
+//     return response()->json(['success' => true]);
+// });
+
+// Route::post('/admin/mark-crop-stored/{id}', function ($id) {
+//     $crop = \App\Models\Crop::findOrFail($id);
+//     $crop->status = 'stored';
+//     $crop->save();
+
+//     return response()->json(['message' => 'Crop marked as stored.']);
+// });
+
+// Route::get('/', function () {
+//     return redirect('/user');
+// });
+//  Route::get('/crop/{id}', [App\Http\Controllers\CropController::class, 'show']);
+// // Route::get('/dashboard', function () {
+// //     return redirect('/admin');
+// // })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+// });
+// $query = Crops::with('farm');
+// Route::middleware(['auth','can:isAdmin'])->post(
+//     '/admin/mark-crop-stored/{crop}',
+//     [CropBlockchainController::class,'markStored']
+// );
+// if (request()->has('status') && request('status') !== '') {
+//     $query->where('status', request('status'));
+// }
+
+// $crops = $query->get();
+
+// require __DIR__.'/auth.php';

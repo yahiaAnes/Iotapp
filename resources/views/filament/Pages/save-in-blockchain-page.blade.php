@@ -1,66 +1,84 @@
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8" />
-    <title>Crops Page - Upload to Blockchain</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-</head>
-<body class="bg-gray-100 p-6 text-gray-900">
-
-<h1 class="text-2xl font-bold mb-4">Crops List</h1>
-
-<table class="min-w-full border border-gray-300 bg-white rounded-lg overflow-hidden">
-    <thead>
-        <tr class="bg-gray-200 text-gray-900">
-            <th class="border px-4 py-2">ID</th>
-            <th class="border px-4 py-2">Name</th>
-            <th class="border px-4 py-2">Planting Date</th>
-            <th class="border px-4 py-2">Harvest Date</th>
-            <th class="border px-4 py-2">Fertilizers Used</th>
-        </tr>
-    </thead>
-    <tbody id="cropsTableBody">
-        {{-- Pass $crops variable from controller --}}
-        @foreach ($crops as $crop)
-        <tr class="text-center">
-            <td class="border px-4 py-2">{{ $crop->id }}</td>
-            <td class="border px-4 py-2">{{ $crop->name }}</td>
-            <td class="border px-4 py-2">{{ $crop->planting_date }}</td>
-            <td class="border px-4 py-2">{{ $crop->harvest_date }}</td>
-            <td class="border px-4 py-2">{{ $crop->fertilizers_used }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-
-<div class="mt-6">
-    <button
-        onclick="uploadCropsToBlockchain()"
-        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
-    >
-        Upload Crops to Blockchain
-    </button>
+<x-filament-panels::page>
+    <!-- Tailwind safelist colors -->
+<div class="hidden">
+    bg-green-600 bg-yellow-500 bg-gray-500 bg-red-500 hover:bg-gray-100 text-white
 </div>
 
-<script>
-async function uploadCropsToBlockchain() {
-    if (typeof window.ethereum === 'undefined') {
-        alert('Please install MetaMask first!');
-        return;
-    }
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">Review & Save Crops to Blockchain</h1>
 
-    try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+    <form method="GET" class="mb-4">
+        <label for="status" class="mr-2 font-semibold text-gray-700">Filter by status:</label>
+        <select name="status" id="status" onchange="this.form.submit()" class="px-3 py-1 border rounded text-gray-800 bg-white">
+            <option value="">All</option>
+            <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="stored" {{ request('status') == 'stored' ? 'selected' : '' }}>Stored</option>
+        </select>
+    </form>
 
-        const web3 = new Web3(window.ethereum);
+    <table class="min-w-full border border-gray-300 rounded-lg overflow-hidden text-sm text-gray-800">
+        <thead class="bg-gray-200 text-gray-700">
+            <tr>
+                <th class="px-4 py-2 border">ID</th>
+                <th class="px-4 py-2 border">Name</th>
+                <th class="px-4 py-2 border">Farm</th>
+                <th class="px-4 py-2 border">Planting Date</th>
+                <th class="px-4 py-2 border">Harvest Date</th>
+                <th class="px-4 py-2 border">Fertilizers</th>
+                <th class="px-4 py-2 border">Status</th>
+                <th class="px-4 py-2 border">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($crops as $crop)
+                <tr class="bg-black hover:bg-gray-50" data-id="{{ $crop->id }}">
+                    <td class="border px-4 py-2">{{ $crop->id }}</td>
+                    <td class="border px-4 py-2">{{ $crop->name }}</td>
+                    <td class="border px-4 py-2">{{ $crop->farm->name ?? 'N/A' }}</td>
+                    <td class="border px-4 py-2">{{ $crop->planting_date }}</td>
+                    <td class="border px-4 py-2">{{ $crop->harvest_date }}</td>
+                    <td class="border px-4 py-2">{{ $crop->fertilizers_used }}</td>
+                    <td class="border px-4 py-2">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full text-white 
+    {{ 
+        $crop->status == 'stored' ? 'bg-green-600' : 
+        ($crop->status == 'pending' ? 'bg-yellow-500' : 
+        ($crop->status == 'draft' ? 'bg-gray-500' : 'bg-red-500')) 
+    }}">
+    {{ $crop->status }}
+</span>
 
-        const contractAddress = '0xc3Fe7F0B18Afa35d9be8e9CE4bA24859aD45C7D6';
+                    </td>
+                    <td class="border px-4 py-2 text-center">
+                        <button onclick="saveCropToBlockchain(
+                            {{ $crop->id }},
+                            '{{ $crop->name }}',
+                            '{{ $crop->planting_date }}',
+                            '{{ $crop->harvest_date }}',
+                            '{{ $crop->fertilizers_used }}',
+                            '{{ $crop->farm->name ?? 'N/A' }}'
+                        )" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+                            Save to Blockchain
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-        const contractABI = [
-            {
-               "anonymous": false,
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script>
+        // async function saveCropToBlockchain(cropId, cropName) 
+         async function saveCropToBlockchain(cropId, name, plantingDate, harvestDate, fertilizersUsed, farmName){
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const web3 = new Web3(window.ethereum);
+
+                    const contractAddress = '0xc3Fe7F0B18Afa35d9be8e9CE4bA24859aD45C7D6';
+                    const contractABI = [{ "anonymous": false,
       "inputs": [
         {
           "indexed": false,
@@ -355,82 +373,68 @@ async function uploadCropsToBlockchain() {
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function"}]; // عوضيه بملف الـ ABI الحقيقي
+
+                    const contract = new web3.eth.Contract(contractABI, contractAddress);
+                    const accounts = await web3.eth.getAccounts();
+
+
+                     const receipt = await contract.methods
+                    .addCrop(name, plantingDate, harvestDate, fertilizersUsed, farmName)
+                   .send({ from: accounts[0] }); // correct account
+                    // const receipt = await contract.methods
+                    //     .addCrop(name, plantingDate, harvestDate, fertilizersUsed, farmName)
+                    //     .send({ from: account });
+
+                    console.log('Transaction receipt:', receipt);
+
+                    // إبلاغ Laravel أن المحصول تم رفعه للبلوكشاين
+                
+                    const res = await fetch(`/admin/mark-crop-stored/${cropId}`, {
+                        method: 'POST',
+                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                              });
+                         if (!res.ok) throw new Error('Laravel update failed');
+                    
+                    // fetch(`/admin/mark-crop-stored/${cropId}`, {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    //     }
+                    // });
+
+                    alert('Crop stored on blockchain successfully!');
+                    window.location.reload();
+
+                } catch (error) {
+                    console.error(error);
+                    alert('Error saving crop to blockchain.');
+                }
+            } else {
+                alert("Please install MetaMask.");
             }
-        ];
-
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
-
-        const crops = [];
-        const rows = document.querySelectorAll('#cropsTableBody tr');
-
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            crops.push({
-                id: parseInt(cells[0].textContent.trim()),
-                name: cells[1].textContent.trim(),
-                plantingDate: cells[2].textContent.trim(),
-                harvestDate: cells[3].textContent.trim(),
-                fertilizersUsed: cells[4].textContent.trim()
-            });
-        });
-
-        const accounts = await web3.eth.getAccounts();
-
-        await contract.methods.uploadCrops(crops).send({ from: accounts[0] });
-
-        alert('Crops data successfully uploaded to blockchain!');
-    } catch (error) {
-        console.error('Error uploading data:', error);
-        alert('An error occurred while uploading. Check console for details.');
-    }
-}
-</script>
-
-</body>
-</html>
+        }
+    </script>
+</x-filament-panels::page>
 
 
 
 
-<!-- <x-filament::page>
-    <h2 class="text-2xl font-bold mb-4">Save to Blockchain</h2>
 
-    <table class="min-w-full divide-y divide-gray-200 border">
-        <thead class="bg-white-100">
-            <tr>
-                <th class="px-4 py-2 text-left">Farmer</th>
-                <th class="px-4 py-2 text-left">Data</th>
-                <th class="px-4 py-2 text-left">Status</th>
-                <th class="px-4 py-2 text-left">Action</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            @foreach($this->requests as $request)
-                <tr>
-                    <td class="px-4 py-2">{{ $request->farmer->name }}</td>
-                    <td class="px-4 py-2">{{ $request->data }}</td>
-                    <td class="px-4 py-2">
-                        @if($request->is_saved_to_blockchain)
-                            ✅ Saved
-                        @else
-                            ❌ Pending
-                        @endif
-                    </td>
-                    <td class="px-4 py-2">
-                        @if(!$request->is_saved_to_blockchain)
-                            <form method="POST" action="{{ route('admin.blockchain.save', $request->id) }}">
-                                @csrf
-                                <x-filament::button type="submit" color="primary" size="sm">
-                                    Save Now
-                                </x-filament::button>
-                            </form>
-                        @else
-                            <span class="text-gray-400 text-sm">Already Saved</span>
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</x-filament::page> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

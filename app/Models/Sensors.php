@@ -16,6 +16,6 @@ class Sensors extends Model
     }
 
     public function readings() {
-        return $this->hasMany(SensorReading::class);
+        return $this->hasMany(SensorReadings::class);
     }
 }

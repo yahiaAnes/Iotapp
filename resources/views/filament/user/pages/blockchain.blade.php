@@ -17,6 +17,7 @@
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Fertilizers Used <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Farm <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,8 @@
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $crop['harvest_date'] }}</td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $crop['fertilizers_used'] }}</td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $crop['farm']['name'] ?? 'N/A' }}</td>
+                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
+                       <button onclick="sendCropsToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send Crops to Admin </button></td>
                     <td class="border ... text-center space-x-2">
     <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
     <button onclick="generateQR(this)" class="px-2 py-1 bg-blue-600 text-black rounded">QR</button>
@@ -42,12 +45,12 @@
         </tbody>
     </table>
 
-    <div class="flex gap-4 my-4">
+    <!-- <div class="flex gap-4 my-4"> -->
     <button onclick="reviewAllCrops()" class="px-4 py-2 bg-orange-500 text-dark border-2 border-orange-700 rounded hover:bg-orange-600">Review Before Saving</button>
-
+<!-- 
     <button onclick="uploadCropsToBlockchain()" class="px-4 py-2 bg-green-500 text-dark border-2 border-green-700 rounded hover:bg-green-600">Upload Crops to Blockchain</button>
     
-    </div >
+    </div > -->
     <h1 class="text-xl font-bold mt-6 text-gray-900 dark:text-gray-100">Farms List</h1>
 
     <table id="farmsTable" class="min-w-full mt-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
@@ -59,6 +62,7 @@
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Size <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Crops <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Sensors <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
             </tr>
         </thead>
@@ -74,19 +78,19 @@
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
                         <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
                     </td>
+                      <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
+                       <button onclick="sendCropsToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send farm to Admin </button></td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
  
-    <div class="flex gap-4 my-4">
+    <!-- <div class="flex gap-4 my-4">
       <button onclick="uploadFarmsToBlockchain()" class="px-4 py-2 bg-green-500 text-dark border-2 border-green-700 rounded hover:bg-green-600">Upload Farms to Blockchain</button>
-      <button onclick="sendCropsToAdmin()" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600">
-    Send Crops to Admin
-</button>
+      <button onclick="sendCropsToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send Crops to Admin </button>
 
-</div >
+</div > -->
 
 
    
@@ -123,705 +127,69 @@
 
 
        
-function sendCropsToAdmin() {
-    const cropIds = getCropIdsFromTable();
+// function sendCropsToAdmin(cropId) {
+//    // const cropIds = getCropIdsFromTable();
 
-    fetch('/crops/send-to-admin', {
+//     fetch('/crops/send-to-admin', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': '{{ csrf_token() }}'  // مهم جدًا للسلامة
+//         },
+//         body: JSON.stringify({ crop_id: cropId })
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error('فشل في الإرسال');
+//         }
+//         alert('تم إرسال المحصول للمراجعة');
+//         location.reload();
+//     })
+//     .catch(error => {
+//         console.error('حدث خطأ أثناء الإرسال:', error);
+//         alert('حدث خطأ أثناء إرسال البيانات');
+//     });
+function sendCropToAdmin(cropId) {
+    fetch('/admin/save-crop', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'  // مهم جدًا للسلامة
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        body: JSON.stringify({ crop_ids: cropIds })
+        body: JSON.stringify({ crop_id: cropId })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error('Request failed');
+        return response.json();
+    })
     .then(data => {
-        alert('تم إرسال البيانات للأدمن للمراجعة.');
+        // نجاح العملية، إعادة توجيه الإدمن
+        window.location.href = '/admin/save-in-blockchain-page';
     })
     .catch(error => {
-        console.error('حدث خطأ:', error);
-        alert('فشل في إرسال البيانات.');
+        console.error(error);
+        alert('حدث خطأ أثناء إرسال المحصول للإدمن');
     });
 }
 
-function getCropIdsFromTable() {
-    const rows = document.querySelectorAll('#cropsTable tbody tr');
-    let ids = [];
-    rows.forEach(row => {
-        ids.push(row.getAttribute('data-id'));
-    });
-    return ids;
+    // .then(response => response.json())
+    // .then(data => {
+    //     alert('تم إرسال البيانات للأدمن للمراجعة.');
+    // })
+    // .catch(error => {
+    //     console.error('حدث خطأ:', error);
+    //     alert('فشل في إرسال البيانات.');
+    // });
 }
 
-
-
-
-
-        // --- الكود الحالي لتحميل البيانات من البلوكشين (اختصار) ---
-         async function uploadCropsToBlockchain() {
-        try {
-            if (typeof window.ethereum === "undefined") {
-                alert("يرجى تثبيت MetaMask");
-                return;
-            }
-
-            const web3 = new Web3(window.ethereum);
-            await window.ethereum.request({ method: "eth_requestAccounts" });
-            const account = (await web3.eth.getAccounts())[0];
-
-            const contractAddress = "0xc3Fe7F0B18Afa35d9be8e9CE4bA24859aD45C7D6";
-            const abi = [ {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "cropId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "farmName",
-          "type": "string"
-        }
-      ],
-      "name": "CropAdded",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "farmId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        }
-      ],
-      "name": "FarmAdded",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_plantingDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_harvestDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_fertilizersUsed",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_farmName",
-          "type": "string"
-        }
-      ],
-      "name": "addCrop",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_location",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_size",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_totalCrops",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_totalSensors",
-          "type": "uint256"
-        }
-      ],
-      "name": "addFarm",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "crops",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "plantingDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "harvestDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "fertilizersUsed",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "farmName",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "farms",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "size",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalCrops",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalSensors",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "getCrop",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getCropsCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "getFarm",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getFarmsCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }];
-            const contract = new web3.eth.Contract(abi, contractAddress);
-
-            const tableRows = document.querySelectorAll("#cropsTable tbody tr");
-            for (let row of tableRows) {
-                const cells = row.querySelectorAll("td");
-                const name = cells[1].textContent.trim();
-                const plantingDate = cells[2].textContent.trim();
-                const harvestDate = cells[3].textContent.trim();
-                const fertilizersUsed = cells[4].textContent.trim();
-                const farmName = cells[5].textContent.trim();
-
-                await contract.methods.addCrop(name, plantingDate, harvestDate, fertilizersUsed, farmName)
-                    .send({ from: account });
-            }
-
-            alert("Crop data has been successfully uploaded to the blockchain.");
-        } catch (error) {
-            console.error("Error while uploading crops:", error);
-        }
-    }
-
-    async function uploadFarmsToBlockchain() {
-        try {
-            if (typeof window.ethereum === "undefined") {
-                alert("يرجى تثبيت MetaMask");
-                return;
-            }
-
-            const web3 = new Web3(window.ethereum);
-            await window.ethereum.request({ method: "eth_requestAccounts" });
-            const account = (await web3.eth.getAccounts())[0];
-
-            const contractAddress = "0xc3Fe7F0B18Afa35d9be8e9CE4bA24859aD45C7D6";
-            const abi = [ {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "cropId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "farmName",
-          "type": "string"
-        }
-      ],
-      "name": "CropAdded",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "farmId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        }
-      ],
-      "name": "FarmAdded",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_plantingDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_harvestDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_fertilizersUsed",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_farmName",
-          "type": "string"
-        }
-      ],
-      "name": "addCrop",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_location",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_size",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_totalCrops",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_totalSensors",
-          "type": "uint256"
-        }
-      ],
-      "name": "addFarm",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "crops",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "plantingDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "harvestDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "fertilizersUsed",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "farmName",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "farms",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "size",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalCrops",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalSensors",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "getCrop",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getCropsCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "getFarm",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getFarmsCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }];
-            const contract = new web3.eth.Contract(abi, contractAddress);
-
-            const tableRows = document.querySelectorAll("#farmsTable tbody tr");
-            for (let row of tableRows) {
-                const cells = row.querySelectorAll("td");
-                const name = cells[1].textContent.trim();
-                const location = cells[2].textContent.trim();
-                const size = parseFloat(cells[3].textContent); // تأكد من تحويله لرقم
-                const totalCrops = parseInt(cells[4].textContent);
-                const totalSensors = parseInt(cells[5].textContent);
-
-                await contract.methods.addFarm(name, location, size, totalCrops, totalSensors)
-                    .send({ from: account });
-            }
-
-            alert("Farm data has been successfully uploaded to the blockchain.");
-        } catch (error) {
-            console.error("Error while uploading farms:", error);
-        }
-    }
-
-
-
+// function getCropIdsFromTable() {
+//     const rows = document.querySelectorAll('#cropsTable tbody tr');
+//     let ids = [];
+//     rows.forEach(row => {
+//         ids.push(row.getAttribute('data-id'));
+//     });
+//     return ids;
+// }
 
 
 

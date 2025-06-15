@@ -1,51 +1,31 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Crop;
+// use App\Models\AdminReview; // طبعًا يجب إنشاء هذا الموديل أو ما يناسبه
+
+// public function sendToAdmin(Request $request)
+// {
+//     $cropIds = $request->input('crop_ids', []);
+
+//     foreach ($cropIds as $cropId) {
+//         AdminReview::create([
+//             'crop_id' => $cropId,
+//             'status' => 'pending',
+//             'submitted_by' => auth()->id(), // المستخدم الذي أرسل البيانات
+//         ]);
+//     }
+
+//     return response()->json(['message' => 'تم الإرسال بنجاح']);
+// }
 
 class CropController extends Controller
 {
-    // استقبال IDs المحاصيل من المستخدم وتخزينها في الجلسة
-    public function receiveCropsFromUser(Request $request)
+    public function show($id)
     {
-        $cropIds = $request->input('crop_ids', []);
-        // جلب بيانات المحاصيل من DB بناءً على IDs
-        $crops = Crop::whereIn('id', $cropIds)->get();
-
-        // تخزين البيانات في الجلسة
-        session(['pending_crops_for_admin' => $crops]);
-
-        return response()->json(['status' => 'success', 'message' => 'Data sent to admin successfully']);
+        return view('crop.show', compact('id'));
     }
-
-    // عرض بيانات المحاصيل المخزنة في الجلسة على صفحة الأدمن
-    public function showCropsForAdmin()
-    {
-        $crops = session('pending_crops_for_admin', collect());
-
-        return view('admin.crops-review', compact('crops'));
-    }
-
-    // إجراء رفع البيانات إلى البلوكشاين (مثال فقط)
-    public function uploadCropsToBlockchain(Request $request)
-    {
-        $crops = session('pending_crops_for_admin', collect());
-
-        // هنا تضيف الكود الخاص برفع البيانات إلى البلوكشاين
-
-        // بعد الرفع مثلاً تم مسح الجلسة
-        session()->forget('pending_crops_for_admin');
-
-        return redirect()->route('admin.cropsReview')->with('success', 'Crops uploaded to blockchain successfully.');
-    }
-
-
-    // public function show($id)
-    // {
-    //     return view('crop.show', compact('id'));
-    // }
 }
 
