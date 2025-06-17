@@ -53,7 +53,7 @@ Password: password
 ### 10. Change app name
 - Open the `.env` file and change it from APP_NAME=
 
-
+- teset
 ---
 
 _Update the repository URL and credentials as needed._ 🚀
