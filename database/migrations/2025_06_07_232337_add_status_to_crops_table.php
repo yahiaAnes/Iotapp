@@ -17,6 +17,8 @@ return new class extends Migration
 //     });
 // }
 
+
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 public function up()
 {
     Schema::table('crops', function (Blueprint $table) {
@@ -32,7 +34,7 @@ public function down()
         $table->dropColumn('status');
     });
 }
-
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // public function up()
 // {
 //     Schema::table('crops', function (Blueprint $table) {

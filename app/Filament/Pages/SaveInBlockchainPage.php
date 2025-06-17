@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use App\Models\Crops;
+use App\Models\Farm;
 
 use App\Models\BlockchainRequest;
 
@@ -23,6 +24,7 @@ SVG;
     {
         return [
             'crops' => Crops::with('farm')->get(),
+            'farms' => Farm::all(),
         ];
     }
 

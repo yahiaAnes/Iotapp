@@ -1,4 +1,6 @@
 <x-filament-panels::page>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
@@ -10,12 +12,12 @@
     <table id="cropsTable" class="min-w-full mt-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
         <thead>
             <tr class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">ID <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Name <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Planting Date <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Harvest Date <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Fertilizers Used <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Farm <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">ID </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Name </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Planting Date </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Harvest Date </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Fertilizers Used </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Farm </th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
             </tr>
@@ -30,12 +32,16 @@
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $crop['fertilizers_used'] }}</td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $crop['farm']['name'] ?? 'N/A' }}</td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
-                       <button onclick="sendCropsToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send Crops to Admin </button></td>
+                       <button onclick="sendCropToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send Crops to Admin </button></td>
                     <td class="border ... text-center space-x-2">
-    <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
-    <button onclick="generateQR(this)" class="px-2 py-1 bg-blue-600 text-black rounded">QR</button>
+                        <button onclick="generateQR(this)" data-crop-id="{{ $crop['id'] }}" class="bg-indigo-600 text-white px-3 py-1 rounded">
+    Generate QR
+</button>
+
+    <!-- <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button> -->
+    <!-- <button onclick="generateQR(this)" class="px-2 py-1 bg-blue-600 text-black rounded">QR</button> -->
     <!-- الزر داخل عمود Action -->
-    <button onclick="openCustomFieldModal('{{ $crop['id'] }}')" class="px-2 py-1 bg-yellow-400 text-black rounded">➕</button>
+    <!-- <button onclick="openCustomFieldModal('{{ $crop['id'] }}')" class="px-2 py-1 bg-yellow-400 text-black rounded">➕</button> -->
 
 </td>
 
@@ -56,13 +62,13 @@
     <table id="farmsTable" class="min-w-full mt-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
         <thead>
             <tr class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">ID <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Name <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Location <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Size <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Crops <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Sensors <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button></th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">ID </th>  <!-- <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button> -->
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Name </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Location </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Size</th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Crops </th>
+                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Sensors </th>
+                <!-- <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th> -->
                 <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
             </tr>
         </thead>
@@ -75,145 +81,110 @@
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['size'] }} hectares</td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ count($farm['crops']) }}</td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ count($farm['sensors']) }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
+                    <!-- <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
                         <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
-                    </td>
+                    </td> -->
                       <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
-                       <button onclick="sendCropsToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send farm to Admin </button></td>
+                       <button onclick="sendCropToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send farm to Admin </button></td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
  
-    <!-- <div class="flex gap-4 my-4">
-      <button onclick="uploadFarmsToBlockchain()" class="px-4 py-2 bg-green-500 text-dark border-2 border-green-700 rounded hover:bg-green-600">Upload Farms to Blockchain</button>
-      <button onclick="sendCropsToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send Crops to Admin </button>
-
-</div > -->
+    
 
 
    
 
 
     <script>
-        // حذف صف
-        function deleteRow(button) {
-            const row = button.closest('tr');
-            if (confirm("Are you sure you want to delete this row?")) {
-                row.remove();
-            }
-        }
+        // // deleteRow
+        // function deleteRow(button) {
+        //     const row = button.closest('tr');
+        //     if (confirm("Are you sure you want to delete this row?")) {
+        //         row.remove();
+        //     }
+        // }
 
-        // حذف عمود
-        function deleteColumn(button) {
-            const th = button.closest('th');
-            const table = th.closest('table');
-            const columnIndex = Array.from(th.parentNode.children).indexOf(th);
+        // // deleteColumn
+        // function deleteColumn(button) {
+        //     const th = button.closest('th');
+        //     const table = th.closest('table');
+        //     const columnIndex = Array.from(th.parentNode.children).indexOf(th);
 
-            if (confirm("Are you sure you want to delete this column? This will delete all the cells in this column.")) {
-                // حذف رأس العمود
-                th.remove();
-
-                // حذف كل الخلايا في هذا العمود بكل صف في tbody
-                for (let row of table.tBodies[0].rows) {
-                    row.cells[columnIndex].remove();
-                }
-            }
-        }
+        //     if (confirm("Are you sure you want to delete this column? This will delete all the cells in this column.")) {
+        //         th.remove();
 
 
+        //         for (let row of table.tBodies[0].rows) {
+        //             row.cells[columnIndex].remove();
+        //         }
+        //     }
+        // }
 
-
-
-       
-// function sendCropsToAdmin(cropId) {
-//    // const cropIds = getCropIdsFromTable();
-
-//     fetch('/crops/send-to-admin', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRF-TOKEN': '{{ csrf_token() }}'  // مهم جدًا للسلامة
-//         },
-//         body: JSON.stringify({ crop_id: cropId })
-//     })
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('فشل في الإرسال');
-//         }
-//         alert('تم إرسال المحصول للمراجعة');
-//         location.reload();
-//     })
-//     .catch(error => {
-//         console.error('حدث خطأ أثناء الإرسال:', error);
-//         alert('حدث خطأ أثناء إرسال البيانات');
-//     });
-function sendCropToAdmin(cropId) {
-    fetch('/admin/save-crop', {
+ function sendCropToAdmin(cropId) {
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+    fetch('/crops/send-to-admin', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': token
         },
         body: JSON.stringify({ crop_id: cropId })
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Request failed');
-        return response.json();
-    })
+    .then(res => res.json())
     .then(data => {
-        // نجاح العملية، إعادة توجيه الإدمن
-        window.location.href = '/admin/save-in-blockchain-page';
+        if (data.success) {
+            alert('Crop sent to admin!');
+        } else {
+            alert('Failed to send.');
+        }
     })
-    .catch(error => {
-        console.error(error);
-        alert('حدث خطأ أثناء إرسال المحصول للإدمن');
+    .catch(err => {
+        console.error(err);
+        alert('Error sending crop.');
     });
 }
-
-    // .then(response => response.json())
-    // .then(data => {
-    //     alert('تم إرسال البيانات للأدمن للمراجعة.');
-    // })
-    // .catch(error => {
-    //     console.error('حدث خطأ:', error);
-    //     alert('فشل في إرسال البيانات.');
-    // });
-}
-
-// function getCropIdsFromTable() {
-//     const rows = document.querySelectorAll('#cropsTable tbody tr');
-//     let ids = [];
-//     rows.forEach(row => {
-//         ids.push(row.getAttribute('data-id'));
-//     });
-//     return ids;
-// }
 
 
 
 // !-- Add QR Modal 
 
+//  function generateQR(button) {
+//         const row = button.closest('tr');
+//         const cropId = row.cells[0].textContent.trim();
 
+//         const qrData = `http://localhost:8000/crop/${cropId}`;
 
- function generateQR(button) {
-        const row = button.closest('tr');
-        const cropId = row.cells[0].textContent.trim();
+//         const qrContainer = document.getElementById('qrCodeContainer');
+//         qrContainer.innerHTML = ''; // إفراغ الحاوية القديمة
 
-        const qrData = `http://localhost:8000/crop/${cropId}`;
+//         new QRCode(qrContainer, {
+//             text: qrData,
+//             width: 200,
+//             height: 200,
+//         });
 
-        const qrContainer = document.getElementById('qrCodeContainer');
-        qrContainer.innerHTML = ''; // إفراغ الحاوية القديمة
+//         document.getElementById('qrModal').classList.remove('hidden');
+//     }
+function generateQR(button) {
+    const cropId = button.dataset.cropId;
 
-        new QRCode(qrContainer, {
-            text: qrData,
-            width: 200,
-            height: 200,
-        });
+    const qrData = `http://localhost:8000/crop/${cropId}`; // عدل للدومين الحقيقي عند النشر
 
-        document.getElementById('qrModal').classList.remove('hidden');
-    }
+    const qrContainer = document.getElementById('qrCodeContainer');
+    qrContainer.innerHTML = ''; // مسح QR السابق
+
+    new QRCode(qrContainer, {
+        text: qrData,
+        width: 200,
+        height: 200,
+    });
+
+    document.getElementById('qrModal').classList.remove('hidden');
+}
 
     function closeQRModal() {
         document.getElementById('qrModal').classList.add('hidden');
@@ -232,99 +203,99 @@ function sendCropToAdmin(cropId) {
 }
 
 
-//!-- Modal لإدخال معلومات مخصصة -->
+// //!-- Modal -->
 
-let currentCropRow = null;
-const cropCustomFields = new Map(); // map of cropId => array of { key, value }
+// let currentCropRow = null;
+// const cropCustomFields = new Map(); // map of cropId => array of { key, value }
 
-function openCustomFieldsModal(button) {
-    currentCropRow = button.closest("tr");
-    document.getElementById("customFieldsModal").classList.remove("hidden");
-}
+// function openCustomFieldsModal(button) {
+//     currentCropRow = button.closest("tr");
+//     document.getElementById("customFieldsModal").classList.remove("hidden");
+// }
 
-function closeModal() {
-    document.getElementById("customFieldsModal").classList.add("hidden");
-    document.getElementById("customKey").value = "";
-    document.getElementById("customValue").value = "";
-}
+// function closeModal() {
+//     document.getElementById("customFieldsModal").classList.add("hidden");
+//     document.getElementById("customKey").value = "";
+//     document.getElementById("customValue").value = "";
+// }
 
-function addCustomField(cropId) {
-    const nameInput = document.getElementById('customFieldName-' + cropId);
-    const valueInput = document.getElementById('customFieldValue-' + cropId);
-    const fieldName = nameInput.value.trim();
-    const fieldValue = valueInput.value.trim();
+// function addCustomField(cropId) {
+//     const nameInput = document.getElementById('customFieldName-' + cropId);
+//     const valueInput = document.getElementById('customFieldValue-' + cropId);
+//     const fieldName = nameInput.value.trim();
+//     const fieldValue = valueInput.value.trim();
 
-    if (!fieldName || !fieldValue) {
-        alert('Please enter a name and value for the custom information.');
-        return;
-    }
+//     if (!fieldName || !fieldValue) {
+//         alert('Please enter a name and value for the custom information.');
+//         return;
+//     }
 
 
     
-    // إدراج العمود الجديد في رأس الجدول قبل عمود Action
-    const headerRow = document.querySelector("#cropsTable thead tr");
-    const ths = headerRow.querySelectorAll("th");
-    const actionIndex = Array.from(ths).findIndex(th => th.textContent.trim() === 'Action');
+    // // headerRow befor action
+    // const headerRow = document.querySelector("#cropsTable thead tr");
+    // const ths = headerRow.querySelectorAll("th");
+    // const actionIndex = Array.from(ths).findIndex(th => th.textContent.trim() === 'Action');
 
-    // التأكد من أن العمود غير مكرر
-    const existingHeaders = Array.from(ths).map(th => th.getAttribute('data-key'));
-    if (!existingHeaders.includes(fieldName)) {
-        const newTh = document.createElement("th");
-        newTh.setAttribute("data-key", fieldName);
-        newTh.className = "border border-gray-300 dark:border-gray-700 px-4 py-2";
-        newTh.textContent = fieldName;
-        headerRow.insertBefore(newTh, ths[actionIndex]);
-    }
+    // // existingHeaders
+    // const existingHeaders = Array.from(ths).map(th => th.getAttribute('data-key'));
+    // if (!existingHeaders.includes(fieldName)) {
+    //     const newTh = document.createElement("th");
+    //     newTh.setAttribute("data-key", fieldName);
+    //     newTh.className = "border border-gray-300 dark:border-gray-700 px-4 py-2";
+    //     newTh.textContent = fieldName;
+    //     headerRow.insertBefore(newTh, ths[actionIndex]);
+    // }
 
-    // الآن نضيف القيمة في صف المحصول الموافق
-    const rows = document.querySelectorAll("#cropsTable tbody tr");
-    rows.forEach(row => {
-        const rowId = row.getAttribute("data-id");
-        const tds = row.querySelectorAll("td");
-        const existingCells = row.querySelectorAll("td[data-key='" + fieldName + "']");
-        const actionTd = tds[actionIndex];
+    // add crops
+//     const rows = document.querySelectorAll("#cropsTable tbody tr");
+//     rows.forEach(row => {
+//         const rowId = row.getAttribute("data-id");
+//         const tds = row.querySelectorAll("td");
+//         const existingCells = row.querySelectorAll("td[data-key='" + fieldName + "']");
+//         const actionTd = tds[actionIndex];
 
-        if (rowId === cropId) {
-            // إذا لم يكن العمود موجود في الصف، أضف القيمة
-            if (existingCells.length === 0) {
-                const newTd = document.createElement("td");
-                newTd.className = "border border-gray-300 dark:border-gray-700 px-4 py-2";
-                newTd.setAttribute("data-key", fieldName);
-                newTd.textContent = fieldValue;
-                row.insertBefore(newTd, actionTd);
-            }
-        } else {
-            // المحاصيل الأخرى - أضف خانة فارغة للحفاظ على التوازن
-            if (existingCells.length === 0) {
-                const emptyTd = document.createElement("td");
-                emptyTd.className = "border border-gray-300 dark:border-gray-700 px-4 py-2";
-                emptyTd.setAttribute("data-key", fieldName);
-                emptyTd.textContent = "-";
-                row.insertBefore(emptyTd, actionTd);
-            }
-        }
-    });
+//         if (rowId === cropId) {
+            
+//             if (existingCells.length === 0) {
+//                 const newTd = document.createElement("td");
+//                 newTd.className = "border border-gray-300 dark:border-gray-700 px-4 py-2";
+//                 newTd.setAttribute("data-key", fieldName);
+//                 newTd.textContent = fieldValue;
+//                 row.insertBefore(newTd, actionTd);
+//             }
+//         } else {
+          
+//             if (existingCells.length === 0) {
+//                 const emptyTd = document.createElement("td");
+//                 emptyTd.className = "border border-gray-300 dark:border-gray-700 px-4 py-2";
+//                 emptyTd.setAttribute("data-key", fieldName);
+//                 emptyTd.textContent = "-";
+//                 row.insertBefore(emptyTd, actionTd);
+//             }
+//         }
+//     });
 
-    updateCropCustomFields(cropId);
-    nameInput.value = "";
-    valueInput.value = "";
+//     updateCropCustomFields(cropId);
+//     nameInput.value = "";
+//     valueInput.value = "";
    
-    closeCustomFieldModal(cropId);
+//     closeCustomFieldModal(cropId);
     
-}
+// }
 
-function updateCropCustomFields(cropId) {
-    const customFields = [];
-    const inputs = document.querySelectorAll(`#customFieldsContainer-${cropId} .custom-field-input`);
-    inputs.forEach(input => {
-        const key = input.dataset.key;
-        const value = input.value.trim();
-        if (key && value) {
-            customFields.push({ key, value });
-        }
-    });
-    cropCustomFields.set(cropId, customFields);
-}
+// function updateCropCustomFields(cropId) {
+//     const customFields = [];
+//     const inputs = document.querySelectorAll(`#customFieldsContainer-${cropId} .custom-field-input`);
+//     inputs.forEach(input => {
+//         const key = input.dataset.key;
+//         const value = input.value.trim();
+//         if (key && value) {
+//             customFields.push({ key, value });
+//         }
+//     });
+//     cropCustomFields.set(cropId, customFields);
+// }
 
 
 //review All Crops
@@ -353,7 +324,7 @@ function reviewAllCrops() {
         summary.push(entry);
     });
 
-    alert("✅ Review Before Upload:\n\n" + summary.join("\n\n"));
+    alert(" Review Before Upload:\n\n" + summary.join("\n\n"));
 }
 
 
@@ -379,7 +350,7 @@ function reviewAllCrops() {
 </div>
 
 
-<script>
+<!-- <script>
     function openCustomFieldModal(cropId) {
         document.getElementById("customFieldModal-" + cropId).classList.remove("hidden");
     }
@@ -387,7 +358,7 @@ function reviewAllCrops() {
     function closeCustomFieldModal(cropId) {
         document.getElementById("customFieldModal-" + cropId).classList.add("hidden");
     }
-</script>
+</script> -->
 
 
 

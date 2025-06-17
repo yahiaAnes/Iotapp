@@ -9,7 +9,8 @@ class Farm extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'location', 'size'];
+    protected $fillable = ['user_id', 'name', 'location', 'size', 'status'];
+
 
     public function user() {
         return $this->belongsTo(User::class);

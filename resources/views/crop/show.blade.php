@@ -103,7 +103,7 @@
             try {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-                const contractAddress = "0xc3Fe7F0B18Afa35d9be8e9CE4bA24859aD45C7D6";
+                const contractAddress = "0xee672d27B495a13a7b76B51bA8DEFAF0d4a25e3d";
 
                 const abi = [ /* ABI نفس الموجود في كودك الأصلي */ 
                     {
@@ -403,6 +403,7 @@
       ],
       "stateMutability": "view",
       "type": "function"
+    
     }
                 ];
 

@@ -12,7 +12,7 @@ class Dashboard extends BaseDashboard
     {
         return [
             TotalUsersWidget::class,
-            SaveInBlockchainButtonWidget::class, // أضفنا Widget الزر هنا
+            SaveInBlockchainButtonWidget::class, 
         ];
     }
 }

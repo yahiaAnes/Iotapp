@@ -28,6 +28,7 @@ class UserPanelProvider extends PanelProvider
         return $panel
             ->id('user')
             ->path('user')
+            //->brandLogo(asset('images/logo.png'))
             ->login()
             ->registration()
             ->passwordReset()
