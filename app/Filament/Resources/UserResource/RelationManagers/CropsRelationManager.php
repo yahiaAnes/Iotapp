@@ -79,19 +79,7 @@ class CropsRelationManager extends RelationManager
                     ->label('Save to Blockchain')
                     ->icon('heroicon-o-cloud-arrow-up')
                     ->color('success')
-                    ->visible(fn ($record) => !$record->isblockchain) // show only if not yet on blockchain
-                    ->action(function ($record) {
-                        // Your blockchain logic here
-                        // Example: dispatch a job or call a service
-                        $record->update([
-                            'isblockchain' => true,
-                        ]);
-
-                        // Optional: Trigger blockchain logic (e.g., Web3 PHP call, job dispatch)
-                        // BlockchainService::storeCrop($record);
-
-                        filament()->notify('success', 'Crop saved to blockchain.');
-                    }),
+                    ->visible(fn ($record) => !$record->isblockchain),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

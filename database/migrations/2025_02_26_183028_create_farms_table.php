@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('location');
             $table->string('size');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
