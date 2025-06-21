@@ -1,10 +1,19 @@
-<x-filament-panels::page>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+<?php if (isset($component)) { $__componentOriginal166a02a7c5ef5a9331faf66fa665c256 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal166a02a7c5ef5a9331faf66fa665c256 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-panels::components.page.index','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament-panels::page'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-  @push('scripts')
+  <?php $__env->startPush('scripts'); ?>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  @endpush
+  <?php $__env->stopPush(); ?>
 
   <style>
     body {
@@ -162,79 +171,44 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($this->crops as $crop)
+        <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->crops; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $crop): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr>
-            <td>{{ $crop['id'] }}</td>
-            <td>{{ $crop['name'] }}</td>
-            <td>{{ $crop['planting_date'] }}</td>
-            <td>{{ $crop['harvest_date'] }}</td>
-            <td class="italic">{{ $crop['fertilizers_used'] }}</td>
-            <td>{{ $crop['farm']['name'] ?? 'N/A' }}</td>
+            <td><?php echo e($crop['id']); ?></td>
+            <td><?php echo e($crop['name']); ?></td>
+            <td><?php echo e($crop['planting_date']); ?></td>
+            <td><?php echo e($crop['harvest_date']); ?></td>
+            <td class="italic"><?php echo e($crop['fertilizers_used']); ?></td>
+            <td><?php echo e($crop['farm']['name'] ?? 'N/A'); ?></td>
             <td class="text-center">
-              @if (!$crop['isBlockchain'])
-                <form method="POST" action="{{ route('blockchain.send') }}">
-                  @csrf
-                  <input type="hidden" name="crop_id" value="{{ $crop['id'] }}">
+              <!--[if BLOCK]><![endif]--><?php if(!$crop['isBlockchain']): ?>
+                <form method="POST" action="<?php echo e(route('blockchain.send')); ?>">
+                  <?php echo csrf_field(); ?>
+                  <input type="hidden" name="crop_id" value="<?php echo e($crop['id']); ?>">
                   <button type="submit" class="btn-chain">
                     🚀 Send to Chain
                   </button>
                 </form>
-              @else
+              <?php else: ?>
                 <span class="btn-disabled">
                   ✅ On Blockchain
                 </span>
-              @endif
+              <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </td>
             <td class="text-center">
               <button onclick="generateQR(this)"
-                      data-crop-id="{{ $crop['id'] }}"
+                      data-crop-id="<?php echo e($crop['id']); ?>"
                       class="btn-qr">
                 🧾 QR Code
               </button>
             </td>
           </tr>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
       </tbody>
     </table>
   </div>
   
 
-    {{-- <!-- <div class="flex gap-4 my-4"> -->
-    <button onclick="reviewAllCrops()" class="px-4 py-2 bg-orange-500 text-dark border-2 border-orange-700 rounded hover:bg-orange-600">Review Before Saving</button>
-
-    <h1 class="text-xl font-bold mt-6 text-gray-900 dark:text-gray-100">Farms List</h1>
-
-    <table id="farmsTable" class="min-w-full mt-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
-        <thead>
-            <tr class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">ID </th>  <!-- <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button> -->
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Name </th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Location </th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Size</th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Crops </th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Sensors </th>
-                <!-- <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th> -->
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($this->farms as $farm)
-                <tr class="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['id'] }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['name'] }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['location'] }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['size'] }} hectares</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ count($farm['crops']) }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ count($farm['sensors']) }}</td>
-                    <!-- <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
-                        <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
-                    </td> -->
-                      <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
-                       <button onclick="sendCropToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send farm to Admin </button></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table> --}}
+    
 
  
     <script>
@@ -381,14 +355,14 @@ function reviewAllCrops() {
 
 
 <!-- Custom Field Modal -->
-<div id="customFieldModal-{{ $crop['id'] }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+<div id="customFieldModal-<?php echo e($crop['id']); ?>" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
     <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96">
         <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Add Custom Information</h2>
-        <input type="text" id="customFieldName-{{ $crop['id'] }}" placeholder="Information Name" class="w-full mb-2 px-3 py-2 border rounded">
-        <input type="text" id="customFieldValue-{{ $crop['id'] }}" placeholder="Information Value" class="w-full mb-4 px-3 py-2 border rounded">
+        <input type="text" id="customFieldName-<?php echo e($crop['id']); ?>" placeholder="Information Name" class="w-full mb-2 px-3 py-2 border rounded">
+        <input type="text" id="customFieldValue-<?php echo e($crop['id']); ?>" placeholder="Information Value" class="w-full mb-4 px-3 py-2 border rounded">
         <div class="flex justify-end gap-2">
-            <button onclick="addCustomField('{{ $crop['id'] }}')" class="bg-green-500 px-4 py-2 rounded text-white">Add</button>
-            <button onclick="closeCustomFieldModal('{{ $crop['id'] }}')" class="bg-red-500 px-4 py-2 rounded text-white">Cancel</button>
+            <button onclick="addCustomField('<?php echo e($crop['id']); ?>')" class="bg-green-500 px-4 py-2 rounded text-white">Add</button>
+            <button onclick="closeCustomFieldModal('<?php echo e($crop['id']); ?>')" class="bg-red-500 px-4 py-2 rounded text-white">Cancel</button>
         </div>
     </div>
 </div>
@@ -418,5 +392,15 @@ function reviewAllCrops() {
 </div>
 
 
-</x-filament-panels::page>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal166a02a7c5ef5a9331faf66fa665c256)): ?>
+<?php $attributes = $__attributesOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
+<?php unset($__attributesOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256)): ?>
+<?php $component = $__componentOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
+<?php unset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
+<?php endif; ?>
 
+<?php /**PATH C:\Users\Dell\Iotapp\resources\views/filament/user/pages/blockchain.blade.php ENDPATH**/ ?>
