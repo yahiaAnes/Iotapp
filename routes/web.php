@@ -55,7 +55,7 @@ Route::get('/crop/{id}', [App\Http\Controllers\CropController::class, 'show']);
 
 // توجيه رئيسي
 Route::get('/', function () {
-    return redirect('/user');
+    return view('welcome');
 });
 
 // إعدادات البروفايل

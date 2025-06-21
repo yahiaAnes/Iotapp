@@ -14,12 +14,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        \App\Models\User::factory(5)->create(); // only if you don't already have users
 
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-            'role' => 'admin',
-            'country' => 'Algeria'
+        $this->call([
+            FarmSeeder::class,
+            CropSeeder::class,
         ]);
+        // User::factory()->create([
+        //     'name' => 'admin',
+        //     'email' => 'admin@admin.com',
+        //     'role' => 'admin',
+        //     'country' => 'Algeria'
+        // ]);
     }
 }

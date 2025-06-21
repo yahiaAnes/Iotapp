@@ -20,6 +20,9 @@ return new class extends Migration
             $table->date('harvest_date')->nullable();
             $table->text('fertilizers_used')->nullable();
             $table->boolean('isBlockchain')->default(false);
+            $table->enum('status', ['draft', 'pending', 'approved', 'rejected', 'stored'])
+              ->default('draft')
+              ->after('id'); 
             $table->timestamps();
         });
     }
