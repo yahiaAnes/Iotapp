@@ -9,11 +9,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
 
 class CropsRelationManager extends RelationManager
 {
     protected static string $relationship = 'crops';
-
 
     public function form(Form $form): Form
     {
@@ -69,17 +69,44 @@ class CropsRelationManager extends RelationManager
                     ->label('Blockchain Crops Only'),
             ])
             ->headerActions([
-                //Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                //Tables\Actions\EditAction::make(),
-                //Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('saveToBlockchain')
                     ->label('Save to Blockchain')
                     ->icon('heroicon-o-cloud-arrow-up')
                     ->color('success')
-                    ->visible(fn ($record) => !$record->isblockchain),
+                    ->visible(fn ($record) => !$record->isblockchain) // show only if not yet on blockchain
+                    ->action(function ($record) {
+                       
+                        $record->update(['isblockchain' => true]);
+                        
+                       
+                        Notification::make()
+                            ->title('Success')
+                            ->body('Crop saved to blockchain successfully!')
+                            ->success()
+                            ->send();
+                            
+                    })
+                    ->extraAttributes(function ($record) {
+                        $data = [
+                            'id' => $record->id,
+                            'name' => $record->name,
+                            'planting_date' => $record->planting_date,
+                            'harvest_date' => $record->harvest_date,
+                            'fertilizers_used' => $record->fertilizers_used,
+                            'farm_name' => $record->farm->name ?? ''
+                        ];
+                        
+                        return [
+                            'x-data' => json_encode($data),
+                            'x-on:click' => 'saveCropToBlockchain($data)',
+                        ];
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

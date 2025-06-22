@@ -229,9 +229,9 @@
                     <!-- <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
                         <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
                     </td> -->
-                      <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
+                      <!-- <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
                        <button onclick="sendCropToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send farm to Admin </button></td>
-                </tr>
+                </tr> -->
             @endforeach
         </tbody>
     </table> --}}
@@ -380,18 +380,7 @@ function reviewAllCrops() {
 
 
 
-<!-- Custom Field Modal -->
-<div id="customFieldModal-{{ $crop['id'] }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96">
-        <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Add Custom Information</h2>
-        <input type="text" id="customFieldName-{{ $crop['id'] }}" placeholder="Information Name" class="w-full mb-2 px-3 py-2 border rounded">
-        <input type="text" id="customFieldValue-{{ $crop['id'] }}" placeholder="Information Value" class="w-full mb-4 px-3 py-2 border rounded">
-        <div class="flex justify-end gap-2">
-            <button onclick="addCustomField('{{ $crop['id'] }}')" class="bg-green-500 px-4 py-2 rounded text-white">Add</button>
-            <button onclick="closeCustomFieldModal('{{ $crop['id'] }}')" class="bg-red-500 px-4 py-2 rounded text-white">Cancel</button>
-        </div>
-    </div>
-</div>
+
 
 
 <!-- <script>
@@ -419,4 +408,3 @@ function reviewAllCrops() {
 
 
 </x-filament-panels::page>
-

@@ -354,18 +354,7 @@ function reviewAllCrops() {
 
 
 
-<!-- Custom Field Modal -->
-<div id="customFieldModal-<?php echo e($crop['id']); ?>" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96">
-        <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Add Custom Information</h2>
-        <input type="text" id="customFieldName-<?php echo e($crop['id']); ?>" placeholder="Information Name" class="w-full mb-2 px-3 py-2 border rounded">
-        <input type="text" id="customFieldValue-<?php echo e($crop['id']); ?>" placeholder="Information Value" class="w-full mb-4 px-3 py-2 border rounded">
-        <div class="flex justify-end gap-2">
-            <button onclick="addCustomField('<?php echo e($crop['id']); ?>')" class="bg-green-500 px-4 py-2 rounded text-white">Add</button>
-            <button onclick="closeCustomFieldModal('<?php echo e($crop['id']); ?>')" class="bg-red-500 px-4 py-2 rounded text-white">Cancel</button>
-        </div>
-    </div>
-</div>
+
 
 
 <!-- <script>
@@ -402,5 +391,4 @@ function reviewAllCrops() {
 <?php $component = $__componentOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
 <?php unset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
 <?php endif; ?>
-
 <?php /**PATH C:\Users\Dell\Iotapp\resources\views/filament/user/pages/blockchain.blade.php ENDPATH**/ ?>

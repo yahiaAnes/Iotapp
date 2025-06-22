@@ -8,6 +8,12 @@ use App\Filament\Pages\SaveInBlockchainPage;
 use App\Http\Controllers\BlockchainController;
 
 
+Route::post('/admin/mark-crop-stored/{id}', function ($id) {
+    \App\Models\Crop::where('id', $id)->update(['isblockchain' => true]);
+    return response()->json(['success' => true]);
+});
+
+
 Route::post('/user/blockchain/send-to-blockchain', [BlockchainController::class, 'sendToBlockchain'])->name('blockchain.send')->middleware(['auth']);
 
 
