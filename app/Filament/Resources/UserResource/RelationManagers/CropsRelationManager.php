@@ -9,6 +9,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions;
+use App\Filament\Pages\SaveCropBlockchain;
 
 class CropsRelationManager extends RelationManager
 {
@@ -75,11 +78,27 @@ class CropsRelationManager extends RelationManager
                 //Tables\Actions\EditAction::make(),
                 //Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make(),
+                            
                 Tables\Actions\Action::make('saveToBlockchain')
                     ->label('Save to Blockchain')
                     ->icon('heroicon-o-cloud-arrow-up')
                     ->color('success')
-                    ->visible(fn ($record) => !$record->isblockchain),
+                    ->visible(fn ($record) => !$record->isblockchain)
+                    ->modal()
+                    ->modalHeading('Save Crop to Blockchain')
+                    ->modalContent(function ($record) {
+                        return view('filament.actions.save-to-blockchain-modal', [
+                            'crop' => $record // Pass the record as 'crop'
+                        ]);
+                    })
+                    ->modalFooterActions([
+                        \Filament\Actions\Action::make('cancel')
+                            ->label('Close')
+                            ->color('primary')
+                            ->closeModalByClickingAway(false)
+                            ->close(),
+                            
+                        ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
