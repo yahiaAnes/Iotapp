@@ -8,11 +8,17 @@
     farmName: '{{ $crop->farm->name ?? 'N/A' }}',
     
     async saveCropToBlockchain() {
+        // Check if Web3 is available
+        if (typeof window.Web3 === 'undefined') {
+            alert('Web3 library not loaded. Please refresh the page and try again.');
+            return;
+        }
+
         if (typeof window.ethereum !== 'undefined') {
             this.loading = true;
             try {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
-                const web3 = new Web3(window.ethereum);
+                const web3 = new window.Web3(window.ethereum);
 
                 const contractAddress = '0xee672d27B495a13a7b76B51bA8DEFAF0d4a25e3d';
                 const contractABI = [{'anonymous': false,
@@ -322,10 +328,13 @@
 
                 console.log('Transaction receipt:', receipt);
 
-                // Update Laravel backend
+                // إبلاغ Laravel أن المحصول تم رفعه للبلوكشاين
                 const res = await fetch(`/admin/mark-crop-stored/${this.cropId}`, {
                     method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                    headers: { 
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
                 });
                 
                 if (!res.ok) throw new Error('Laravel update failed');
@@ -341,6 +350,30 @@
             }
         } else {
             alert('Please install MetaMask.');
+        }
+    },
+
+    // Initialize Web3 when component loads
+    init() {
+        this.loadWeb3();
+    },
+
+    async loadWeb3() {
+        if (typeof window.Web3 === 'undefined') {
+            try {
+                // Dynamically load Web3 if not available
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js';
+                script.onload = () => {
+                    console.log('Web3 loaded successfully');
+                };
+                script.onerror = () => {
+                    console.error('Failed to load Web3');
+                };
+                document.head.appendChild(script);
+            } catch (error) {
+                console.error('Error loading Web3:', error);
+            }
         }
     }
 }">
@@ -394,6 +427,7 @@
             opacity: 0.7;
         }
     </style>
+    
     <button 
         @click="saveCropToBlockchain()" 
         :disabled="loading"
@@ -402,7 +436,4 @@
         <span x-show="!loading">Save to Blockchain</span>
         <span x-show="loading">Saving...</span>
     </button>
-
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
