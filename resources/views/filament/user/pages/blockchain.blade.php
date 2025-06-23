@@ -199,68 +199,9 @@
   </div>
   
 
-    {{-- <!-- <div class="flex gap-4 my-4"> -->
-    <button onclick="reviewAllCrops()" class="px-4 py-2 bg-orange-500 text-dark border-2 border-orange-700 rounded hover:bg-orange-600">Review Before Saving</button>
-
-    <h1 class="text-xl font-bold mt-6 text-gray-900 dark:text-gray-100">Farms List</h1>
-
-    <table id="farmsTable" class="min-w-full mt-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
-        <thead>
-            <tr class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">ID </th>  <!-- <button class="delete-col-btn" onclick="deleteColumn(this)">🗑️</button> -->
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Name </th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Location </th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Size</th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Crops </th>
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Total Sensors </th>
-                <!-- <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th> -->
-                <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($this->farms as $farm)
-                <tr class="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['id'] }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['name'] }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['location'] }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $farm['size'] }} hectares</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ count($farm['crops']) }}</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ count($farm['sensors']) }}</td>
-                    <!-- <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
-                        <button onclick="deleteRow(this)" class="px-2 py-1 bg-red-600 text-white rounded">🗑️</button>
-                    </td> -->
-                      <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center">
-                       <button onclick="sendCropToAdmin({{ $crop['id'] }})" class="px-4 py-2 bg-green-500 text-dark border-2 bg-green-700 rounded hover:bg-green-600"> Send farm to Admin </button></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table> --}}
 
  
     <script>
-        // // deleteRow
-        // function deleteRow(button) {
-        //     const row = button.closest('tr');
-        //     if (confirm("Are you sure you want to delete this row?")) {
-        //         row.remove();
-        //     }
-        // }
-
-        // // deleteColumn
-        // function deleteColumn(button) {
-        //     const th = button.closest('th');
-        //     const table = th.closest('table');
-        //     const columnIndex = Array.from(th.parentNode.children).indexOf(th);
-
-        //     if (confirm("Are you sure you want to delete this column? This will delete all the cells in this column.")) {
-        //         th.remove();
-
-
-        //         for (let row of table.tBodies[0].rows) {
-        //             row.cells[columnIndex].remove();
-        //         }
-        //     }
-        // }
 
  function sendCropToAdmin(cropId) {
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -289,25 +230,6 @@
 
 
 
-// !-- Add QR Modal 
-
-//  function generateQR(button) {
-//         const row = button.closest('tr');
-//         const cropId = row.cells[0].textContent.trim();
-
-//         const qrData = `http://localhost:8000/crop/${cropId}`;
-
-//         const qrContainer = document.getElementById('qrCodeContainer');
-//         qrContainer.innerHTML = ''; // إفراغ الحاوية القديمة
-
-//         new QRCode(qrContainer, {
-//             text: qrData,
-//             width: 200,
-//             height: 200,
-//         });
-
-//         document.getElementById('qrModal').classList.remove('hidden');
-//     }
 function generateQR(button) {
     const cropId = button.dataset.cropId;
 
@@ -344,33 +266,6 @@ function generateQR(button) {
 
 
 
-function reviewAllCrops() {
-    const summary = [];
-
-    const rows = document.querySelectorAll("#cropsTable tbody tr");
-    rows.forEach(row => {
-        const cropId = row.cells[0].innerText.trim();
-        const name = row.cells[1].innerText.trim();
-        const planting = row.cells[2].innerText.trim();
-        const harvest = row.cells[3].innerText.trim();
-        const fert = row.cells[4].innerText.trim();
-        const farm = row.cells[5].innerText.trim();
-        const custom = cropCustomFields.get(cropId) || [];
-
-        let entry = `🟢 ${name}\n`;
-        entry += `  - Planting: ${planting}, Harvest: ${harvest}\n  - Fertilizers: ${fert}, Farm: ${farm}\n`;
-        if (custom.length > 0) {
-            entry += `  - Custom Information:\n`;
-            custom.forEach(f => {
-                entry += `    • ${f.key}: ${f.value}\n`;
-            });
-        }
-        summary.push(entry);
-    });
-
-    alert(" Review Before Upload:\n\n" + summary.join("\n\n"));
-}
-
 
 
     </script>
@@ -380,35 +275,9 @@ function reviewAllCrops() {
 
 
 
-<!-- Custom Field Modal -->
-<div id="customFieldModal-{{ $crop['id'] }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96">
-        <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Add Custom Information</h2>
-        <input type="text" id="customFieldName-{{ $crop['id'] }}" placeholder="Information Name" class="w-full mb-2 px-3 py-2 border rounded">
-        <input type="text" id="customFieldValue-{{ $crop['id'] }}" placeholder="Information Value" class="w-full mb-4 px-3 py-2 border rounded">
-        <div class="flex justify-end gap-2">
-            <button onclick="addCustomField('{{ $crop['id'] }}')" class="bg-green-500 px-4 py-2 rounded text-white">Add</button>
-            <button onclick="closeCustomFieldModal('{{ $crop['id'] }}')" class="bg-red-500 px-4 py-2 rounded text-white">Cancel</button>
-        </div>
-    </div>
-</div>
-
-
-<!-- <script>
-    function openCustomFieldModal(cropId) {
-        document.getElementById("customFieldModal-" + cropId).classList.remove("hidden");
-    }
-
-    function closeCustomFieldModal(cropId) {
-        document.getElementById("customFieldModal-" + cropId).classList.add("hidden");
-    }
-</script> -->
-
-
-
 
 <!-- Add QR Modal -->
-<div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+<div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
     <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg text-center">
         <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">QR Code</h2>
         <div id="qrCodeContainer"></div>
