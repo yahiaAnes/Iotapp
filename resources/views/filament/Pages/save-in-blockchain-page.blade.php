@@ -14,8 +14,8 @@
                     await window.ethereum.request({ method: 'eth_requestAccounts' });
                     const web3 = new Web3(window.ethereum);
 
-                    const contractAddress = '0xee672d27B495a13a7b76B51bA8DEFAF0d4a25e3d';
-                    const contractABI = [{"anonymous": false,
+                    const contractAddress = '0xdbc9f4d459f5e399a38A6660447726B51Eb93A5e';
+                    const contractABI = ["anonymous": false,
       "inputs": [
         {
           "indexed": false,

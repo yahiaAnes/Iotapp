@@ -1,30 +1,113 @@
-<?php if (isset($component)) { $__componentOriginal166a02a7c5ef5a9331faf66fa665c256 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal166a02a7c5ef5a9331faf66fa665c256 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-panels::components.page.index','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('filament-panels::page'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<!-- resources/views/crop/show.blade.php -->
 
-    
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عرض بيانات المحصول من البلوكشاين</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 30px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1#project-title {
+            color: #2e7d32; /* أخضر جميل */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 1px;
+        }
+        h2 {
+            color: #2e7d32; /* نفس اللون الأخضر */
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.5em;
+            border-bottom: 2px solid #2e7d32;
+            padding-bottom: 5px;
+        }
+        #crop-id {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #555;
+        }
+        table {
+            width: 60%;
+            margin: 0 auto 50px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            text-align: right;
+            font-size: 1.1em;
+        }
+        th {
+            background-color: #a5d6a7; /* أخضر فاتح للعناوين */
+            color: #1b5e20; /* أخضر غامق للعناوين */
+            font-weight: 700;
+        }
+        #blockchainData {
+            text-align: center;
+            font-size: 1.1em;
+            color: #d32f2f; /* لون أحمر لرسائل الخطأ */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
 
+    <h1 id="project-title">مشروع AlgroTech</h1>
+    <div id="crop-id">بيانات المحصول (ID: <?php echo e($id); ?>)</div>
 
+    <h2>تفاصيل المحصول</h2>
+    <table id="cropTable" style="display:none;">
+        <tbody>
+            <tr>
+                <th>اسم المحصول</th>
+                <td id="cropName"></td>
+            </tr>
+            <tr>
+                <th>تاريخ الزراعة</th>
+                <td id="plantingDate"></td>
+            </tr>
+            <tr>
+                <th>تاريخ الحصاد</th>
+                <td id="harvestDate"></td>
+            </tr>
+            <tr>
+                <th>الأسمدة المستخدمة</th>
+                <td id="fertilizersUsed"></td>
+            </tr>
+            <tr>
+                <th>اسم المزرعة</th>
+                <td id="farmName"></td>
+            </tr>
+        </tbody>
+    </table>
 
+    <div id="blockchainData">جارٍ تحميل البيانات من البلوكشاين...</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script>
-        // async function saveCropToBlockchain(cropId, cropName) 
-         async function saveCropToBlockchain(cropId, name, plantingDate, harvestDate, fertilizersUsed, farmName){
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const web3 = new Web3(window.ethereum);
+<script>
+    if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
 
-                    const contractAddress = '0xdbc9f4d459f5e399a38A6660447726B51Eb93A5e';
-                    const contractABI = ["anonymous": false,
+        async function loadBlockchainData() {
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+                const contractAddress = "0xee672d27B495a13a7b76B51bA8DEFAF0d4a25e3d";
+
+                const abi = [ /* ABI نفس الموجود في كودك الأصلي */ 
+                    {
+      "anonymous": false,
       "inputs": [
         {
           "indexed": false,
@@ -320,81 +403,39 @@
       ],
       "stateMutability": "view",
       "type": "function"
-    }]; // عوضيه بملف الـ ABI الحقيقي
+    
+    }
+                ];
 
-                    const contract = new web3.eth.Contract(contractABI, contractAddress);
-                    const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abi, contractAddress);
 
+                const cropId = <?php echo e($id); ?>;
 
-                     const receipt = await contract.methods
-                    .addCrop(name, plantingDate, harvestDate, fertilizersUsed, farmName)
-                   .send({ from: accounts[0] }); // correct account
-                    // const receipt = await contract.methods
-                    //     .addCrop(name, plantingDate, harvestDate, fertilizersUsed, farmName)
-                    //     .send({ from: account });
+                const data = await contract.methods.getCrop(cropId).call();
 
-                    console.log('Transaction receipt:', receipt);
+                // عرض البيانات في الجدول
+                document.getElementById('cropName').innerText = data[0];
+                document.getElementById('plantingDate').innerText = data[1];
+                document.getElementById('harvestDate').innerText = data[2];
+                document.getElementById('fertilizersUsed').innerText = data[3];
+                document.getElementById('farmName').innerText = data[4];
 
-                    // إبلاغ Laravel أن المحصول تم رفعه للبلوكشاين
-                
-                    const res = await fetch(`/admin/mark-crop-stored/${cropId}`, {
-                        method: 'POST',
-                        headers: { 'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>' }
-                              });
-                         if (!res.ok) throw new Error('Laravel update failed');
-                    
-                    // fetch(`/admin/mark-crop-stored/${cropId}`, {
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Content-Type': 'application/json',
-                    //         'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                    //     }
-                    // });
+                document.getElementById('cropTable').style.display = 'table';
+                document.getElementById('blockchainData').innerText = '';
 
-                    alert('Crop stored on blockchain successfully!');
-                    window.location.reload();
-
-                } catch (error) {
-                    console.error(error);
-                    alert('Error saving crop to blockchain.');
-                }
-            } else {
-                alert("Please install MetaMask.");
+            } catch (error) {
+                document.getElementById('blockchainData').innerText = "حدث خطأ أثناء تحميل البيانات: " + error.message;
             }
         }
 
-      
+        loadBlockchainData();
 
-    </script>
- <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal166a02a7c5ef5a9331faf66fa665c256)): ?>
-<?php $attributes = $__attributesOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
-<?php unset($__attributesOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256)): ?>
-<?php $component = $__componentOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
-<?php unset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
-<?php endif; ?>
+    } else {
+        document.getElementById('blockchainData').innerText = "يرجى تثبيت MetaMask أو محفظة Web3 للمتابعة.";
+    }
+</script>
 
+</body>
+</html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php /**PATH C:\Users\Dell\Iotapp\resources\views/filament/pages/save-in-blockchain-page.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Dell\Iotapp\resources\views/crop/show.blade.php ENDPATH**/ ?>

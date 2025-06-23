@@ -92,6 +92,7 @@ class CropsRelationManager extends RelationManager
                             ->send();
                             
                     })
+                    
                     ->extraAttributes(function ($record) {
                         $data = [
                             'id' => $record->id,
