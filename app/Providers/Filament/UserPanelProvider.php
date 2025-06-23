@@ -20,6 +20,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\User\Widgets\SensorsStats;
 use App\Filament\User\Widgets\IrrigationSystemsStats;
 use App\Filament\User\Widgets\SoilMoistureChart;
+use App\Filament\User\Pages\RegisterUser;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -28,9 +29,10 @@ class UserPanelProvider extends PanelProvider
         return $panel
             ->id('user')
             ->path('user')
-            //->brandLogo(asset('images/logo.png'))
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('10rem')
             ->login()
-            ->registration()
+            ->registration(RegisterUser::class)
             ->passwordReset()
             ->emailVerification()
             ->profile()
