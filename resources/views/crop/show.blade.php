@@ -300,7 +300,7 @@
             try {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-                const contractAddress = "0x18757efDCF0980B6F038B26fb498aFCC3b719730";
+                const contractAddress = "0x8570189a5AEb7b35ad3B4cDc8f9aeB4cbd507F54";
 
                 const abi = [ {
       "anonymous": false,
@@ -600,7 +600,7 @@
       "stateMutability": "view",
       "type": "function"
     }
-                ];
+  ],
 
                 const contract = new web3.eth.Contract(abi, contractAddress);
 

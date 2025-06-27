@@ -20,305 +20,307 @@
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
                 const web3 = new window.Web3(window.ethereum);
 
-                const contractAddress = '0x18757efDCF0980B6F038B26fb498aFCC3b719730';
-                const contractABI = [{
-                    'anonymous': false,
-                    'inputs': [
-                        {
-                            'indexed': false,
-                            'internalType': 'uint256',
-                            'name': 'cropId',
-                            'type': 'uint256'
-                        },
-                        {
-                            'indexed': false,
-                            'internalType': 'string',
-                            'name': 'name',
-                            'type': 'string'
-                        },
-                        {
-                            'indexed': false,
-                            'internalType': 'string',
-                            'name': 'farmName',
-                            'type': 'string'
-                        }
+                const contractAddress = '0x8570189a5AEb7b35ad3B4cDc8f9aeB4cbd507F54';
+                const contractABI = [
+                  {
+                    "anonymous": false,
+                    "inputs": [
+                      {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "cropId",
+                        "type": "uint256"
+                      },
+                      {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "farmName",
+                        "type": "string"
+                      }
                     ],
-                    'name': 'CropAdded',
-                    'type': 'event'
-                },
-                {
-                    'anonymous': false,
-                    'inputs': [
-                        {
-                            'indexed': false,
-                            'internalType': 'uint256',
-                            'name': 'farmId',
-                            'type': 'uint256'
-                        },
-                        {
-                            'indexed': false,
-                            'internalType': 'string',
-                            'name': 'name',
-                            'type': 'string'
-                        },
-                        {
-                            'indexed': false,
-                            'internalType': 'string',
-                            'name': 'location',
-                            'type': 'string'
-                        }
+                    "name": "CropAdded",
+                    "type": "event"
+                  },
+                  {
+                    "anonymous": false,
+                    "inputs": [
+                      {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "farmId",
+                        "type": "uint256"
+                      },
+                      {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "location",
+                        "type": "string"
+                      }
                     ],
-                    'name': 'FarmAdded',
-                    'type': 'event'
-                },
-                {
-                    'inputs': [
-                        {
-                            'internalType': 'string',
-                            'name': '_name',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '_plantingDate',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '_harvestDate',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '_fertilizersUsed',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '_farmName',
-                            'type': 'string'
-                        }
+                    "name": "FarmAdded",
+                    "type": "event"
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "_plantingDate",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "_harvestDate",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "_fertilizersUsed",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "_farmName",
+                        "type": "string"
+                      }
                     ],
-                    'name': 'addCrop',
-                    'outputs': [],
-                    'stateMutability': 'nonpayable',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [
-                        {
-                            'internalType': 'string',
-                            'name': '_name',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '_location',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': '_size',
-                            'type': 'uint256'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': '_totalCrops',
-                            'type': 'uint256'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': '_totalSensors',
-                            'type': 'uint256'
-                        }
+                    "name": "addCrop",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "_location",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "_size",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "_totalCrops",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "_totalSensors",
+                        "type": "uint256"
+                      }
                     ],
-                    'name': 'addFarm',
-                    'outputs': [],
-                    'stateMutability': 'nonpayable',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        }
+                    "name": "addFarm",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      }
                     ],
-                    'name': 'crops',
-                    'outputs': [
-                        {
-                            'internalType': 'string',
-                            'name': 'name',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': 'plantingDate',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': 'harvestDate',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': 'fertilizersUsed',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': 'farmName',
-                            'type': 'string'
-                        }
+                    "name": "crops",
+                    "outputs": [
+                      {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "plantingDate",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "harvestDate",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "fertilizersUsed",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "farmName",
+                        "type": "string"
+                      }
                     ],
-                    'stateMutability': 'view',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        }
+                    "stateMutability": "view",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      }
                     ],
-                    'name': 'farms',
-                    'outputs': [
-                        {
-                            'internalType': 'string',
-                            'name': 'name',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': 'location',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': 'size',
-                            'type': 'uint256'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': 'totalCrops',
-                            'type': 'uint256'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': 'totalSensors',
-                            'type': 'uint256'
-                        }
+                    "name": "farms",
+                    "outputs": [
+                      {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "location",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "size",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "totalCrops",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "totalSensors",
+                        "type": "uint256"
+                      }
                     ],
-                    'stateMutability': 'view',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [
-                        {
-                            'internalType': 'uint256',
-                            'name': 'index',
-                            'type': 'uint256'
-                        }
+                    "stateMutability": "view",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "internalType": "uint256",
+                        "name": "index",
+                        "type": "uint256"
+                      }
                     ],
-                    'name': 'getCrop',
-                    'outputs': [
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        }
+                    "name": "getCrop",
+                    "outputs": [
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      }
                     ],
-                    'stateMutability': 'view',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [],
-                    'name': 'getCropsCount',
-                    'outputs': [
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        }
+                    "stateMutability": "view",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [],
+                    "name": "getCropsCount",
+                    "outputs": [
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      }
                     ],
-                    'stateMutability': 'view',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [
-                        {
-                            'internalType': 'uint256',
-                            'name': 'index',
-                            'type': 'uint256'
-                        }
+                    "stateMutability": "view",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "internalType": "uint256",
+                        "name": "index",
+                        "type": "uint256"
+                      }
                     ],
-                    'name': 'getFarm',
-                    'outputs': [
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'string',
-                            'name': '',
-                            'type': 'string'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        },
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        }
+                    "name": "getFarm",
+                    "outputs": [
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      }
                     ],
-                    'stateMutability': 'view',
-                    'type': 'function'
-                },
-                {
-                    'inputs': [],
-                    'name': 'getFarmsCount',
-                    'outputs': [
-                        {
-                            'internalType': 'uint256',
-                            'name': '',
-                            'type': 'uint256'
-                        }
+                    "stateMutability": "view",
+                    "type": "function"
+                  },
+                  {
+                    "inputs": [],
+                    "name": "getFarmsCount",
+                    "outputs": [
+                      {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                      }
                     ],
-                    'stateMutability': 'view',
-                    'type': 'function'
-                }];
+                    "stateMutability": "view",
+                    "type": "function"
+                  }
+                ];
 
                 const contract = new web3.eth.Contract(contractABI, contractAddress);
                 const accounts = await web3.eth.getAccounts();
