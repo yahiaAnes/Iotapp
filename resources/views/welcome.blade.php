@@ -9,6 +9,15 @@
         tailwind.config = {
             theme: {
                 extend: {
+                    colors: {
+                        'green-light': '#f0fdf4',
+                        'green-light-2': '#dcfce7',
+                        'green-light-3': '#bbf7d0',
+                        'green-medium': '#10b981',
+                        'green-medium-2': '#059669',
+                        'green-dark': '#047857',
+                        'green-dark-2': '#065f46',
+                    },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'spin-slow': 'spin 20s linear infinite',
@@ -25,7 +34,7 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
         }
         .glass-effect {
             backdrop-filter: blur(16px);
@@ -34,39 +43,39 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white overflow-x-hidden">
+<body class="bg-white text-gray-800 overflow-x-hidden">
     <!-- Animated Background Elements -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-20 left-10 w-64 h-64 bg-green-500 rounded-full opacity-10 animate-float blur-xl"></div>
-        <div class="absolute top-40 right-20 w-96 h-96 bg-blue-500 rounded-full opacity-10 animate-pulse-slow blur-2xl"></div>
-        <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500 rounded-full opacity-10 animate-bounce-slow blur-xl"></div>
-        <div class="absolute top-1/2 right-10 w-72 h-72 bg-emerald-500 rounded-full opacity-10 animate-spin-slow blur-xl"></div>
+        <div class="absolute top-20 left-10 w-64 h-64 bg-green-light-3 rounded-full opacity-30 animate-float blur-xl"></div>
+        <div class="absolute top-40 right-20 w-96 h-96 bg-green-light-2 rounded-full opacity-20 animate-pulse-slow blur-2xl"></div>
+        <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-green-light rounded-full opacity-25 animate-bounce-slow blur-xl"></div>
+        <div class="absolute top-1/2 right-10 w-72 h-72 bg-green-light-3 rounded-full opacity-20 animate-spin-slow blur-xl"></div>
     </div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-effect">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <div class="text-2xl font-bold bg-gradient-to-r from-green-medium to-green-dark bg-clip-text text-transparent">
                     AgroTech Solutions
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#accueil" class="hover:text-green-400 transition-colors duration-300">Accueil</a>
-                    <a href="#apropos" class="hover:text-green-400 transition-colors duration-300">À Propos</a>
-                    <a href="#services" class="hover:text-green-400 transition-colors duration-300">Services</a>
-                    <a href="#fonctionnement" class="hover:text-green-400 transition-colors duration-300">Fonctionnement</a>
-                    <a href="#blockchain" class="hover:text-green-400 transition-colors duration-300">Blockchain</a>
-                    <a href="#contact" class="hover:text-green-400 transition-colors duration-300">Contact</a>
+                    <a href="#accueil" class="hover:text-green-medium transition-colors duration-300">Accueil</a>
+                    <a href="#apropos" class="hover:text-green-medium transition-colors duration-300">À Propos</a>
+                    <a href="#services" class="hover:text-green-medium transition-colors duration-300">Services</a>
+                    <a href="#fonctionnement" class="hover:text-green-medium transition-colors duration-300">Fonctionnement</a>
+                    <a href="#blockchain" class="hover:text-green-medium transition-colors duration-300">Blockchain</a>
+                    <a href="#contact" class="hover:text-green-medium transition-colors duration-300">Contact</a>
                     <div class="flex items-center space-x-4 ml-8">
                         <a href="/user" class="glass-effect px-6 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all duration-300 hover:scale-105">
                             Connexion
                         </a>
-                        <a href="/user/register" class="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 px-6 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-lg">
+                        <a href="/user/register" class="bg-gradient-to-r from-green-medium to-green-dark hover:from-green-medium-2 hover:to-green-dark-2 px-6 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-lg text-white">
                             S'inscrire
                         </a>
                     </div>
                 </div>
-                <button class="md:hidden text-white focus:outline-none" onclick="toggleMenu()">
+                <button class="md:hidden text-gray-800 focus:outline-none" onclick="toggleMenu()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -76,14 +85,14 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-95 z-40 hidden">
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-95 z-40 hidden">
         <div class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
-            <a href="#accueil" onclick="toggleMenu()" class="hover:text-green-400 transition-colors duration-300">Accueil</a>
-            <a href="#apropos" onclick="toggleMenu()" class="hover:text-green-400 transition-colors duration-300">À Propos</a>
-            <a href="#services" onclick="toggleMenu()" class="hover:text-green-400 transition-colors duration-300">Services</a>
-            <a href="#fonctionnement" onclick="toggleMenu()" class="hover:text-green-400 transition-colors duration-300">Fonctionnement</a>
-            <a href="#blockchain" onclick="toggleMenu()" class="hover:text-green-400 transition-colors duration-300">Blockchain</a>
-            <a href="#contact" onclick="toggleMenu()" class="hover:text-green-400 transition-colors duration-300">Contact</a>
+            <a href="#accueil" onclick="toggleMenu()" class="hover:text-green-medium transition-colors duration-300">Accueil</a>
+            <a href="#apropos" onclick="toggleMenu()" class="hover:text-green-medium transition-colors duration-300">À Propos</a>
+            <a href="#services" onclick="toggleMenu()" class="hover:text-green-medium transition-colors duration-300">Services</a>
+            <a href="#fonctionnement" onclick="toggleMenu()" class="hover:text-green-medium transition-colors duration-300">Fonctionnement</a>
+            <a href="#blockchain" onclick="toggleMenu()" class="hover:text-green-medium transition-colors duration-300">Blockchain</a>
+            <a href="#contact" onclick="toggleMenu()" class="hover:text-green-medium transition-colors duration-300">Contact</a>
         </div>
     </div>
 
@@ -91,15 +100,15 @@
     <section id="accueil" class="relative min-h-screen flex items-center justify-center pt-20">
         <div class="container mx-auto px-6 text-center relative z-10">
             <div class="max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse-slow">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-medium via-green-dark to-green-dark-2 bg-clip-text text-transparent animate-pulse-slow">
                     Agriculture Intelligente
                 </h1>
-                <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+                <p class="text-xl md:text-2xl mb-8 text-gray-600 leading-relaxed">
                     Solution numérique basée sur l'IoT et la blockchain pour contrôler la qualité des cultures, 
                     assurer leur traçabilité et faciliter l'exportation selon les normes internationales
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-green-500/25 hover:scale-105">
+                    <button class="bg-gradient-to-r from-green-medium to-green-dark hover:from-green-medium-2 hover:to-green-dark-2 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-green-medium/25 hover:scale-105 text-white">
                         Découvrir nos Solutions
                     </button>
                     <button class="glass-effect px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:bg-white hover:bg-opacity-20 hover:scale-105">
@@ -111,9 +120,9 @@
         
         <!-- 3D Floating Elements -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute top-1/4 left-10 w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg opacity-70 animate-float shadow-2xl"></div>
-            <div class="absolute top-1/3 right-16 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-60 animate-bounce-slow shadow-2xl"></div>
-            <div class="absolute bottom-1/4 left-1/4 w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg opacity-80 animate-spin-slow shadow-2xl"></div>
+            <div class="absolute top-1/4 left-10 w-20 h-20 bg-gradient-to-r from-green-medium to-green-dark rounded-lg opacity-70 animate-float shadow-2xl"></div>
+            <div class="absolute top-1/3 right-16 w-16 h-16 bg-gradient-to-r from-green-light-3 to-green-medium rounded-full opacity-60 animate-bounce-slow shadow-2xl"></div>
+            <div class="absolute bottom-1/4 left-1/4 w-12 h-12 bg-gradient-to-r from-green-dark to-green-dark-2 rounded-lg opacity-80 animate-spin-slow shadow-2xl"></div>
         </div>
     </section>
 
@@ -121,38 +130,38 @@
     <section id="apropos" class="py-20 relative">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-medium to-green-dark bg-clip-text text-transparent">
                     À Propos de Nous
                 </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-green-400 to-blue-500 mx-auto mb-8"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-medium to-green-dark mx-auto mb-8"></div>
             </div>
             
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6">
-                    <p class="text-lg text-gray-300 leading-relaxed">
+                    <p class="text-lg text-gray-600 leading-relaxed">
                         Nous sommes une entreprise innovante spécialisée dans le développement de solutions technologiques 
                         pour l'agriculture moderne. Notre mission est de révolutionner le secteur agroalimentaire grâce 
                         à l'intelligence artificielle, l'IoT et la blockchain.
                     </p>
-                    <p class="text-lg text-gray-300 leading-relaxed">
+                    <p class="text-lg text-gray-600 leading-relaxed">
                         Nos solutions permettent aux exploitations agricoles et industries agroalimentaires de maintenir 
                         les plus hauts standards de qualité tout en respectant les normes internationales d'exportation.
                     </p>
                     <div class="grid grid-cols-2 gap-6 mt-8">
                         <div class="glass-effect p-6 rounded-xl hover:bg-opacity-20 transition-all duration-300">
-                            <h4 class="text-2xl font-bold text-green-400 mb-2">500+</h4>
-                            <p class="text-gray-300">Exploitations Connectées</p>
+                            <h4 class="text-2xl font-bold text-green-medium mb-2">500+</h4>
+                            <p class="text-gray-600">Exploitations Connectées</p>
                         </div>
                         <div class="glass-effect p-6 rounded-xl hover:bg-opacity-20 transition-all duration-300">
-                            <h4 class="text-2xl font-bold text-blue-400 mb-2">99.9%</h4>
-                            <p class="text-gray-300">Traçabilité Garantie</p>
+                            <h4 class="text-2xl font-bold text-green-dark mb-2">99.9%</h4>
+                            <p class="text-gray-600">Traçabilité Garantie</p>
                         </div>
                     </div>
                 </div>
                 <div class="relative">
                     <div class="glass-effect p-8 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300">
-                        <div class="w-full h-64 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-xl opacity-80 flex items-center justify-center">
-                            <span class="text-white text-6xl">🌱</span>
+                        <div class="w-full h-64 bg-gradient-to-br from-green-light via-green-light-2 to-green-light-3 rounded-xl opacity-80 flex items-center justify-center">
+                            <span class="text-6xl">🌱</span>
                         </div>
                     </div>
                 </div>
@@ -161,20 +170,20 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-20 relative bg-gray-800 bg-opacity-50">
+    <section id="services" class="py-20 relative bg-green-light bg-opacity-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-medium to-green-dark bg-clip-text text-transparent">
                     Nos Services
                 </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-green-400 to-blue-500 mx-auto mb-8"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-medium to-green-dark mx-auto mb-8"></div>
             </div>
             
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="glass-effect p-8 rounded-2xl hover:bg-opacity-20 transition-all duration-300 group hover:scale-105">
                     <div class="text-5xl mb-6 group-hover:animate-bounce">🌾</div>
-                    <h3 class="text-2xl font-bold mb-4 text-green-400">Contrôle Qualité</h3>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h3 class="text-2xl font-bold mb-4 text-green-medium">Contrôle Qualité</h3>
+                    <p class="text-gray-600 leading-relaxed">
                         Surveillance en temps réel de la qualité des cultures grâce à nos capteurs IoT avancés 
                         et algorithmes d'intelligence artificielle.
                     </p>
@@ -182,8 +191,8 @@
                 
                 <div class="glass-effect p-8 rounded-2xl hover:bg-opacity-20 transition-all duration-300 group hover:scale-105">
                     <div class="text-5xl mb-6 group-hover:animate-bounce">🔗</div>
-                    <h3 class="text-2xl font-bold mb-4 text-blue-400">Traçabilité Blockchain</h3>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h3 class="text-2xl font-bold mb-4 text-green-dark">Traçabilité Blockchain</h3>
+                    <p class="text-gray-600 leading-relaxed">
                         Traçabilité complète et transparente de vos produits de la ferme à l'assiette 
                         grâce à la technologie blockchain sécurisée.
                     </p>
@@ -191,8 +200,8 @@
                 
                 <div class="glass-effect p-8 rounded-2xl hover:bg-opacity-20 transition-all duration-300 group hover:scale-105">
                     <div class="text-5xl mb-6 group-hover:animate-bounce">🌍</div>
-                    <h3 class="text-2xl font-bold mb-4 text-purple-400">Normes Internationales</h3>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h3 class="text-2xl font-bold mb-4 text-green-medium-2">Normes Internationales</h3>
+                    <p class="text-gray-600 leading-relaxed">
                         Conformité automatique aux normes d'exportation internationales pour faciliter 
                         l'accès aux marchés mondiaux.
                     </p>
@@ -205,10 +214,10 @@
     <section id="fonctionnement" class="py-20 relative">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-medium to-green-dark bg-clip-text text-transparent">
                     Comment ça Fonctionne
                 </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-green-400 to-blue-500 mx-auto mb-8"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-medium to-green-dark mx-auto mb-8"></div>
             </div>
             
             <div class="grid md:grid-cols-4 gap-8">
@@ -216,54 +225,54 @@
                     <div class="glass-effect w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
                         <span class="text-2xl">📡</span>
                     </div>
-                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">1</div>
-                    <h3 class="text-xl font-bold mb-3 text-green-400">Installation IoT</h3>
-                    <p class="text-gray-300">Déploiement de capteurs intelligents dans vos cultures</p>
+                    <div class="w-8 h-8 bg-green-medium rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">1</div>
+                    <h3 class="text-xl font-bold mb-3 text-green-medium">Installation IoT</h3>
+                    <p class="text-gray-600">Déploiement de capteurs intelligents dans vos cultures</p>
                 </div>
                 
                 <div class="text-center group">
                     <div class="glass-effect w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
                         <span class="text-2xl">📊</span>
                     </div>
-                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">2</div>
-                    <h3 class="text-xl font-bold mb-3 text-blue-400">Collecte de Données</h3>
-                    <p class="text-gray-300">Monitoring continu et analyse des paramètres critiques</p>
+                    <div class="w-8 h-8 bg-green-dark rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">2</div>
+                    <h3 class="text-xl font-bold mb-3 text-green-dark">Collecte de Données</h3>
+                    <p class="text-gray-600">Monitoring continu et analyse des paramètres critiques</p>
                 </div>
                 
                 <div class="text-center group">
                     <div class="glass-effect w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
                         <span class="text-2xl">🤖</span>
                     </div>
-                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">3</div>
-                    <h3 class="text-xl font-bold mb-3 text-purple-400">IA & Analyse</h3>
-                    <p class="text-gray-300">Traitement intelligent et recommandations personnalisées</p>
+                    <div class="w-8 h-8 bg-green-medium-2 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">3</div>
+                    <h3 class="text-xl font-bold mb-3 text-green-medium-2">IA & Analyse</h3>
+                    <p class="text-gray-600">Traitement intelligent et recommandations personnalisées</p>
                 </div>
                 
                 <div class="text-center group">
                     <div class="glass-effect w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
                         <span class="text-2xl">✅</span>
                     </div>
-                    <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">4</div>
-                    <h3 class="text-xl font-bold mb-3 text-emerald-400">Certification</h3>
-                    <p class="text-gray-300">Génération automatique de certifications blockchain</p>
+                    <div class="w-8 h-8 bg-green-dark-2 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">4</div>
+                    <h3 class="text-xl font-bold mb-3 text-green-dark-2">Certification</h3>
+                    <p class="text-gray-600">Génération automatique de certifications blockchain</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Blockchain Section -->
-    <section id="blockchain" class="py-20 relative bg-gray-800 bg-opacity-50">
+    <section id="blockchain" class="py-20 relative bg-green-light bg-opacity-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-medium to-green-dark bg-clip-text text-transparent">
                     Qu'est-ce que la Blockchain ?
                 </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-green-400 to-blue-500 mx-auto mb-8"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-medium to-green-dark mx-auto mb-8"></div>
             </div>
             
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6">
-                    <p class="text-lg text-gray-300 leading-relaxed">
+                    <p class="text-lg text-gray-600 leading-relaxed">
                         La blockchain est une technologie de stockage et de transmission d'informations transparente, 
                         sécurisée et décentralisée. Dans le contexte agricole, elle garantit l'authenticité et 
                         l'intégrité des données de traçabilité.
@@ -271,18 +280,18 @@
                     
                     <div class="space-y-4">
                         <div class="glass-effect p-6 rounded-xl hover:bg-opacity-20 transition-all duration-300">
-                            <h4 class="text-xl font-bold text-green-400 mb-2">🔒 Sécurité Absolue</h4>
-                            <p class="text-gray-300">Données cryptées et immuables, protection contre la falsification</p>
+                            <h4 class="text-xl font-bold text-green-medium mb-2">🔒 Sécurité Absolue</h4>
+                            <p class="text-gray-600">Données cryptées et immuables, protection contre la falsification</p>
                         </div>
                         
                         <div class="glass-effect p-6 rounded-xl hover:bg-opacity-20 transition-all duration-300">
-                            <h4 class="text-xl font-bold text-blue-400 mb-2">👁️ Transparence Totale</h4>
-                            <p class="text-gray-300">Historique complet et vérifiable de chaque produit</p>
+                            <h4 class="text-xl font-bold text-green-dark mb-2">👁️ Transparence Totale</h4>
+                            <p class="text-gray-600">Historique complet et vérifiable de chaque produit</p>
                         </div>
                         
                         <div class="glass-effect p-6 rounded-xl hover:bg-opacity-20 transition-all duration-300">
-                            <h4 class="text-xl font-bold text-purple-400 mb-2">⚡ Traçabilité Instantanée</h4>
-                            <p class="text-gray-300">Suivi en temps réel de la ferme au consommateur</p>
+                            <h4 class="text-xl font-bold text-green-medium-2 mb-2">⚡ Traçabilité Instantanée</h4>
+                            <p class="text-gray-600">Suivi en temps réel de la ferme au consommateur</p>
                         </div>
                     </div>
                 </div>
@@ -290,21 +299,21 @@
                 <div class="relative">
                     <div class="glass-effect p-8 rounded-2xl shadow-2xl">
                         <div class="space-y-4">
-                            <div class="flex items-center space-x-4 p-4 bg-green-500 bg-opacity-20 rounded-lg animate-pulse-slow">
-                                <div class="w-4 h-4 bg-green-400 rounded-full"></div>
-                                <span class="text-green-400 font-semibold">Bloc 1: Semis</span>
+                            <div class="flex items-center space-x-4 p-4 bg-green-light-3 bg-opacity-50 rounded-lg animate-pulse-slow">
+                                <div class="w-4 h-4 bg-green-medium rounded-full"></div>
+                                <span class="text-green-medium font-semibold">Bloc 1: Semis</span>
                             </div>
-                            <div class="flex items-center space-x-4 p-4 bg-blue-500 bg-opacity-20 rounded-lg">
-                                <div class="w-4 h-4 bg-blue-400 rounded-full"></div>
-                                <span class="text-blue-400 font-semibold">Bloc 2: Croissance</span>
+                            <div class="flex items-center space-x-4 p-4 bg-green-light-2 bg-opacity-50 rounded-lg">
+                                <div class="w-4 h-4 bg-green-dark rounded-full"></div>
+                                <span class="text-green-dark font-semibold">Bloc 2: Croissance</span>
                             </div>
-                            <div class="flex items-center space-x-4 p-4 bg-purple-500 bg-opacity-20 rounded-lg">
-                                <div class="w-4 h-4 bg-purple-400 rounded-full"></div>
-                                <span class="text-purple-400 font-semibold">Bloc 3: Récolte</span>
+                            <div class="flex items-center space-x-4 p-4 bg-green-light bg-opacity-50 rounded-lg">
+                                <div class="w-4 h-4 bg-green-medium-2 rounded-full"></div>
+                                <span class="text-green-medium-2 font-semibold">Bloc 3: Récolte</span>
                             </div>
-                            <div class="flex items-center space-x-4 p-4 bg-emerald-500 bg-opacity-20 rounded-lg">
-                                <div class="w-4 h-4 bg-emerald-400 rounded-full"></div>
-                                <span class="text-emerald-400 font-semibold">Bloc 4: Distribution</span>
+                            <div class="flex items-center space-x-4 p-4 bg-green-light-3 bg-opacity-50 rounded-lg">
+                                <div class="w-4 h-4 bg-green-dark-2 rounded-full"></div>
+                                <span class="text-green-dark-2 font-semibold">Bloc 4: Distribution</span>
                             </div>
                         </div>
                     </div>
@@ -317,17 +326,17 @@
     <section id="contact" class="py-20 relative">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-medium to-green-dark bg-clip-text text-transparent">
                     Contactez-Nous
                 </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-green-400 to-blue-500 mx-auto mb-8"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-medium to-green-dark mx-auto mb-8"></div>
             </div>
             
             <div class="grid lg:grid-cols-2 gap-12">
                 <div class="space-y-8">
                     <div>
-                        <h3 class="text-2xl font-bold mb-6 text-green-400">Prêt à Révolutionner Votre Agriculture ?</h3>
-                        <p class="text-lg text-gray-300 leading-relaxed mb-8">
+                        <h3 class="text-2xl font-bold mb-6 text-green-medium">Prêt à Révolutionner Votre Agriculture ?</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed mb-8">
                             Contactez nos experts pour découvrir comment nos solutions peuvent transformer 
                             votre exploitation agricole et améliorer la qualité de vos productions.
                         </p>
@@ -336,31 +345,31 @@
                     <div class="space-y-6">
                         <div class="flex items-center space-x-4">
                             <div class="glass-effect w-12 h-12 rounded-full flex items-center justify-center">
-                                <span class="text-green-400">📧</span>
+                                <span class="text-green-medium">📧</span>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-white">Email</h4>
-                                <p class="text-gray-300">contact@agrotech-solutions.com</p>
+                                <h4 class="font-semibold text-gray-800">Email</h4>
+                                <p class="text-gray-600">contact@agrotech-solutions.com</p>
                             </div>
                         </div>
                         
                         <div class="flex items-center space-x-4">
                             <div class="glass-effect w-12 h-12 rounded-full flex items-center justify-center">
-                                <span class="text-blue-400">📱</span>
+                                <span class="text-green-dark">📱</span>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-white">Téléphone</h4>
-                                <p class="text-gray-300">+33 1 23 45 67 89</p>
+                                <h4 class="font-semibold text-gray-800">Téléphone</h4>
+                                <p class="text-gray-600">+33 1 23 45 67 89</p>
                             </div>
                         </div>
                         
                         <div class="flex items-center space-x-4">
                             <div class="glass-effect w-12 h-12 rounded-full flex items-center justify-center">
-                                <span class="text-purple-400">📍</span>
+                                <span class="text-green-medium-2">📍</span>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-white">Adresse</h4>
-                                <p class="text-gray-300">123 Avenue de l'Innovation, 75001 Paris</p>
+                                <h4 class="font-semibold text-gray-800">Adresse</h4>
+                                <p class="text-gray-600">123 Avenue de l'Innovation, 75001 Paris</p>
                             </div>
                         </div>
                     </div>
@@ -370,31 +379,31 @@
                     <form class="space-y-6" onsubmit="handleSubmit(event)">
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-semibold mb-2 text-gray-300">Nom</label>
-                                <input type="text" class="w-full px-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent text-white" required>
+                                <label class="block text-sm font-semibold mb-2 text-gray-700">Nom</label>
+                                <input type="text" class="w-full px-4 py-3 bg-white bg-opacity-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-medium focus:border-transparent text-gray-800" required>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold mb-2 text-gray-300">Prénom</label>
-                                <input type="text" class="w-full px-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent text-white" required>
+                                <label class="block text-sm font-semibold mb-2 text-gray-700">Prénom</label>
+                                <input type="text" class="w-full px-4 py-3 bg-white bg-opacity-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-medium focus:border-transparent text-gray-800" required>
                             </div>
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-semibold mb-2 text-gray-300">Email</label>
-                            <input type="email" class="w-full px-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent text-white" required>
+                            <label class="block text-sm font-semibold mb-2 text-gray-700">Email</label>
+                            <input type="email" class="w-full px-4 py-3 bg-white bg-opacity-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-medium focus:border-transparent text-gray-800" required>
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-semibold mb-2 text-gray-300">Entreprise</label>
-                            <input type="text" class="w-full px-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent text-white">
+                            <label class="block text-sm font-semibold mb-2 text-gray-700">Entreprise</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white bg-opacity-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-medium focus:border-transparent text-gray-800">
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-semibold mb-2 text-gray-300">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent text-white" required></textarea>
+                            <label class="block text-sm font-semibold mb-2 text-gray-700">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 bg-white bg-opacity-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-medium focus:border-transparent text-gray-800" required></textarea>
                         </div>
                         
-                        <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-green-500/25 hover:scale-105">
+                        <button type="submit" class="w-full bg-gradient-to-r from-green-medium to-green-dark hover:from-green-medium-2 hover:to-green-dark-2 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-green-medium/25 hover:scale-105 text-white">
                             Envoyer le Message
                         </button>
                     </form>
@@ -402,45 +411,44 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+<!-- Footer -->
+    <footer class="bg-green-50 border-t border-gray-200 py-12">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8">
                 <div class="col-span-2">
-                    <div class="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent mb-4">
+                    <div class="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent mb-4">
                         AgroTech Solutions
                     </div>
-                    <p class="text-gray-400 leading-relaxed mb-6">
+                    <p class="text-gray-600 leading-relaxed mb-6">
                         Révolutionnons l'agriculture avec l'intelligence artificielle, l'IoT et la blockchain 
                         pour un avenir alimentaire durable et traçable.
                     </p>
                     <div class="flex space-x-4">
                         <div class="glass-effect w-10 h-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all duration-300 cursor-pointer">
-                            <span class="text-blue-400">📘</span>
+                            <span class="text-emerald-500">📘</span>
                         </div>
                         <div class="glass-effect w-10 h-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all duration-300 cursor-pointer">
-                            <span class="text-blue-500">🐦</span>
+                            <span class="text-emerald-700">🐦</span>
                         </div>
                         <div class="glass-effect w-10 h-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all duration-300 cursor-pointer">
-                            <span class="text-blue-600">💼</span>
+                            <span class="text-emerald-600">💼</span>
                         </div>
                     </div>
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-4 text-white">Liens Rapides</h4>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Navigation</h4>
                     <div class="space-y-2">
-                        <a href="#apropos" class="block text-gray-400 hover:text-green-400 transition-colors duration-300">À Propos</a>
-                        <a href="#services" class="block text-gray-400 hover:text-green-400 transition-colors duration-300">Services</a>
-                        <a href="#fonctionnement" class="block text-gray-400 hover:text-green-400 transition-colors duration-300">Fonctionnement</a>
-                        <a href="#blockchain" class="block text-gray-400 hover:text-green-400 transition-colors duration-300">Blockchain</a>
+                        <a href="#apropos" class="block text-gray-600 hover:text-emerald-500 transition-colors duration-300">À Propos</a>
+                        <a href="#services" class="block text-gray-600 hover:text-emerald-500 transition-colors duration-300">Services</a>
+                        <a href="#fonctionnement" class="block text-gray-600 hover:text-emerald-500 transition-colors duration-300">Fonctionnement</a>
+                        <a href="#blockchain" class="block text-gray-600 hover:text-emerald-500 transition-colors duration-300">Blockchain</a>
                     </div>
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-4 text-white">Contact</h4>
-                    <div class="space-y-2 text-gray-400">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Contact</h4>
+                    <div class="space-y-2 text-gray-600">
                         <p>📧 contact@agrotech-solutions.com</p>
                         <p>📱 +33 1 23 45 67 89</p>
                         <p>📍 Paris, France</p>
@@ -448,10 +456,10 @@
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p class="text-gray-400">
+            <div class="border-t border-gray-300 mt-8 pt-8 text-center">
+                <p class="text-gray-600">
                     © 2025 AgroTech Solutions. Tous droits réservés. 
-                    <span class="text-green-400">Cultivons l'avenir ensemble</span> 🌱
+                    <span class="text-emerald-500">Cultivons l'avenir ensemble</span> 🌱
                 </p>
             </div>
         </div>
@@ -487,7 +495,7 @@
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
-                nav.style.backgroundColor = 'rgba(17, 24, 39, 0.95)';
+                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
             } else {
                 nav.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             }

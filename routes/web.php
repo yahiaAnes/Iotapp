@@ -8,7 +8,7 @@ use App\Filament\Pages\SaveInBlockchainPage;
 use App\Http\Controllers\BlockchainController;
 
 
-Route::post('/user/blockchain/send-to-blockchain', [BlockchainController::class, 'sendToBlockchain'])->name('blockchain.send')->middleware(['auth']);
+Route::post('/user/blockchain/send-to-blockchain', [BlockchainController::class, 'sendToBlockchain'])->name('blockchain.send')->middleware(['auth', 'admin']);
 
 
 Route::post('/admin/save-farm-to-blockchain', [BlockchainController::class, 'storeFarm']);
@@ -50,6 +50,8 @@ Route::middleware(['auth', 'can:isAdmin'])->post(
     [CropBlockchainController::class, 'markStored']
 )->name('mark.crop.stored');
 
+
+Route::post('/admin/mark-crop-stored/{id}', [YourController::class, 'markCropStored'])->name('mark.crop.stored');
 // عرض المحصول بالتفصيل
 Route::get('/crop/{id}', [App\Http\Controllers\CropController::class, 'show']);
 
