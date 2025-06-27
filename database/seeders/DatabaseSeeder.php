@@ -13,18 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        \App\Models\User::factory(5)->create(); // only if you don't already have users
+       // Create 5 random users
+        \App\Models\User::factory(5)->create();
 
+        // Create a specific admin user
+        \App\Models\User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'role' => 'admin',
+            'country' => 'Algeria',
+            'password' => bcrypt('password'), // set a known password
+        ]);
+
+        // Call other seeders
         $this->call([
             FarmSeeder::class,
             CropSeeder::class,
         ]);
-        // User::factory()->create([
-        //     'name' => 'admin',
-        //     'email' => 'admin@admin.com',
-        //     'role' => 'admin',
-        //     'country' => 'Algeria'
-        // ]);
     }
 }
