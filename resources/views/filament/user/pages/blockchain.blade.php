@@ -9,14 +9,13 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #ffffff;
     }
 
     h1 {
       font-size: 2.75rem;
       font-weight: 800;
       text-align: center;
-      color: #047857;
+      color: #16a34a;
       margin-bottom: 2.5rem;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
@@ -26,9 +25,9 @@
       border-radius: 1.5rem;
       backdrop-filter: blur(12px);
       background: rgba(255, 255, 255, 0.75);
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 128, 0, 0.1);
       padding: 1.5rem;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(34, 197, 94, 0.3);
       transition: all 0.3s ease-in-out;
     }
 
@@ -40,12 +39,12 @@
     }
 
     thead tr {
-      background: linear-gradient(to right, #f0fdf4, #dcfce7, #bbf7d0);
+      background: linear-gradient(to right, #d9f99d, #bbf7d0, #ecfccb); /* green-lime gradients */
       color: #000000;
       text-transform: uppercase;
       font-size: 0.85rem;
       font-weight: bold;
-      box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 2px 4px rgba(0, 128, 0, 0.1);
     }
 
     th, td {
@@ -60,13 +59,13 @@
 
     tbody tr {
       transition: 0.3s ease;
-      color: #000000;
+      color: #000000; /* gray-800 */
     }
 
     tbody tr:hover {
-      background-color: #f0fdf4;
+      background-color: #ecfdf5; /* green-50 */
       transform: scale(1.01);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 128, 0, 0.1);
     }
 
     td.italic {
@@ -77,10 +76,10 @@
     .btn-chain {
       padding: 0.5rem 1.25rem;
       border-radius: 9999px;
-      background: linear-gradient(to bottom right, #10b981, #059669, #047857);
+      background: linear-gradient(to bottom right, #10b981, #22c55e, #84cc16);
       color: white;
       font-weight: 600;
-      box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 8px rgba(0, 128, 0, 0.3);
       transition: all 0.3s ease;
       cursor: pointer;
       border: none;
@@ -88,12 +87,12 @@
 
     .btn-chain:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(16, 185, 129, 0.5);
+      box-shadow: 0 6px 12px rgba(0, 128, 0, 0.5);
     }
 
     .btn-disabled {
-      background-color: rgba(16, 185, 129, 0.15);
-      color: #047857;
+      background-color: rgba(34, 197, 94, 0.15);
+      color: #ffffff;
       padding: 0.5rem 1rem;
       border-radius: 9999px;
       font-weight: 500;
@@ -101,49 +100,47 @@
     }
 
     .btn-qr {
-      background: linear-gradient(to right, #10b981, #047857);
+      background: linear-gradient(to right, #65a30d, #047857);
       color: white;
       padding: 0.5rem 1rem;
       border-radius: 9999px;
       font-weight: 600;
-      box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
       transition: all 0.3s ease;
       border: none;
     }
 
     .btn-qr:hover {
-      box-shadow: 0 6px 14px rgba(16, 185, 129, 0.4);
-      background: linear-gradient(to right, #059669, #065f46);
+      box-shadow: 0 6px 14px rgba(0, 128, 0, 0.4);
+      background: linear-gradient(to right, #4d7c0f, #065f46);
     }
 
     /* Dark mode support */
     @media (prefers-color-scheme: dark) {
-      body {
-        background-color: #ffffff;
-      }
+      
 
       .dashboard-container {
-        background: rgba(240, 253, 244, 0.5);
-        border-color: rgba(16, 185, 129, 0.3);
+        background: rgba(5, 46, 22, 0.5);
+        border-color: rgba(132, 204, 22, 0.3);
       }
 
       thead tr {
-        background: linear-gradient(to right, #047857, #065f46, #10b981);
-        color: #ffffff;
+        background: linear-gradient(to right, #064e3b, #065f46, #365314);
+        color: #000000;
       }
 
       tbody {
-        background: rgba(240, 253, 244, 0.4);
+        background: rgba(5, 46, 22, 0.4);
         color: #000000;
       }
 
       tbody tr:hover {
-        background-color: #dcfce7;
+        background-color: #022c22;
       }
 
       .btn-disabled {
-        color: #047857;
-        background-color: rgba(16, 185, 129, 0.2);
+        color: #ffffff;
+        background-color: rgba(34, 197, 94, 0.2);
       }
     }
   </style>
@@ -291,3 +288,4 @@ function generateQR(button) {
 
 
 </x-filament-panels::page>
+
