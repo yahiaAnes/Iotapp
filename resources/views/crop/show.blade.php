@@ -298,9 +298,12 @@
 
         async function loadBlockchainData() {
             try {
+              const network = await web3.eth.net.getNetworkType();
+              console.log("Connected to network:", network);
+
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-                const contractAddress = "0x8570189a5AEb7b35ad3B4cDc8f9aeB4cbd507F54";
+                const contractAddress = "0x0Bd2c6113896417AB36e96f200aB9c34B4d6F74e";
 
                 const abi = [ {
       "anonymous": false,
@@ -600,7 +603,7 @@
       "stateMutability": "view",
       "type": "function"
     }
-  ],
+  ];
 
                 const contract = new web3.eth.Contract(abi, contractAddress);
 
