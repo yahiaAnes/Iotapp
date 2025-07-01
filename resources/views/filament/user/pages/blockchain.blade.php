@@ -398,4 +398,3 @@ function generateQR(button) {
 
 
 </x-filament-panels::page>
-
