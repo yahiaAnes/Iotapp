@@ -143,6 +143,113 @@
         background-color: rgba(34, 197, 94, 0.2);
       }
     }
+
+    
+/* Modern Modal Backdrop */
+.qr-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px); /* subtle blur for modern effect */
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Card Container - Neumorphic Style */
+.qr-card {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 1.25rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.15), -5px -5px 15px #ffffff;
+  text-align: center;
+  width: 90%;
+  max-width: 420px;
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .qr-card {
+    background: linear-gradient(145deg, #1e293b, #111827);
+    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.7), -5px -5px 15px rgba(255, 255, 255, 0.05);
+    color: #f9fafb;
+  }
+}
+
+/* Title */
+.qr-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  .qr-title {
+    color: #f9fafb;
+  }
+}
+
+/* QR Code Container */
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* Buttons */
+.qr-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.25s ease-in-out;
+  letter-spacing: 0.5px;
+}
+
+/* Download Button */
+.qr-button.download {
+  background: #22c55e;
+  color: #000;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+}
+
+.qr-button.download:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.4);
+}
+
+/* Close Button */
+.qr-button.close {
+  background: #ef4444;
+  color: #000;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+.qr-button.close:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
   </style>
 
   <h1>🌱 Crops Dashboard</h1>
@@ -244,11 +351,12 @@ function generateQR(button) {
         height: 200,
     });
 
-    document.getElementById('qrModal').classList.remove('hidden');
+    document.getElementById('qrModal').style.display = 'flex';
+
 }
 
     function closeQRModal() {
-        document.getElementById('qrModal').classList.add('hidden');
+        document.getElementById('qrModal').style.display = 'none';
         document.getElementById('qrCodeContainer').innerHTML = '';
     }
 
@@ -277,13 +385,15 @@ function generateQR(button) {
 
 
 <!-- Add QR Modal -->
-<div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg text-center">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">QR Code</h2>
-        <div id="qrCodeContainer"></div>
-         <button onclick="downloadQRImage()" class="bg-green-500 text-black px-4 py-2 rounded mb-2"> download QR Image </button><br>
-        <button onclick="closeQRModal()" class="mt-4 px-4 py-2 bg-red-500 text-black rounded">Close</button>
-    </div>
+<div id="qrModal" class="qr-modal">
+  <div class="qr-card">
+    <h2 class="qr-title">QR Code</h2>
+
+    <div id="qrCodeContainer" class="qr-code-container"></div>
+
+    <button onclick="downloadQRImage()" class="qr-button download">Download QR Image</button>
+    <button onclick="closeQRModal()" class="qr-button close">Close</button>
+  </div>
 </div>
 
 
