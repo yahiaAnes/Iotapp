@@ -12,7 +12,12 @@ Route::post('/user/blockchain/send-to-blockchain', [BlockchainController::class,
 
 
 Route::post('/admin/save-farm-to-blockchain', [BlockchainController::class, 'storeFarm']);
+Route::middleware(['auth', 'can:isAdmin'])->post(
+    '/admin/mark-farm-stored/{farmId}',
+    [BlockchainController::class, 'markFarmStored']
+)->name('mark.farm.stored');
 
+// صفحة مراجعة المحاصيل من طرف الإدارة
 Route::get('/admin/review-crops', [CropBlockchainController::class, 'index'])->name('review.crops');
 
 // صفحة Filament لحفظ المحاصيل في blockchain
@@ -28,6 +33,8 @@ Route::middleware(['auth', 'can:isAdmin'])->post(
     [CropBlockchainController::class, 'markStored']
 )->name('mark.crop.stored');
 
+
+Route::post('/admin/mark-crop-stored/{id}', [YourController::class, 'markCropStored'])->name('mark.crop.stored');
 // عرض المحصول بالتفصيل
 Route::get('/crop/{id}', [App\Http\Controllers\CropController::class, 'show']);
 
@@ -44,3 +51,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
