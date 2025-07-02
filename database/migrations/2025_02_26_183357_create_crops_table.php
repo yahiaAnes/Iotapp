@@ -13,16 +13,14 @@ return new class extends Migration
     {
         Schema::create('crops', function (Blueprint $table) {
             $table->id('id');
-            $table->foreignid('farm_id')->constrained('farms')->onDelete('cascade');
-            $table->foreignid('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('farm_id')->constrained('farms')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->date('planting_date');
             $table->date('harvest_date')->nullable();
             $table->text('fertilizers_used')->nullable();
             $table->boolean('isBlockchain')->default(false);
-            $table->enum('status', ['draft', 'pending', 'approved', 'rejected', 'stored'])
-              ->default('draft')
-              ->after('id'); 
+            $table->enum('status', ['draft', 'pending', 'approved', 'rejected', 'stored'])->default('draft');
             $table->timestamps();
         });
     }
