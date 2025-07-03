@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     platform: linux/amd64
-    container_name: laravel-app
+    container_name: algrotech-app
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -16,17 +16,13 @@ services:
     depends_on:
       - db
       - redis
-    # Remove this entire extra_hosts section:
-    # extra_hosts:
-    #   - "db:172.18.0.1"
-    #   - "redis:172.18.0.1"
 
   webserver:
     image: nginx:alpine
     container_name: laravel-nginx
     restart: unless-stopped
     ports:
-      - "8000:80"
+      - "3030:80"
     volumes:
       - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d
@@ -37,13 +33,13 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: laravel-db
+    container_name: algrotech-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+      MYSQL_DATABASE: algrotech
+      MYSQL_ROOT_PASSWORD: Agro@Db12Pass
+      MYSQL_USER: algrotechUser
+      MYSQL_PASSWORD: Agro@Db12Pass
     ports:
       - "33061:3306"
     volumes:
