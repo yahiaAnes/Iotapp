@@ -1,65 +1,40 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    platform: linux/amd64
     container_name: algrotech-app
-    restart: unless-stopped
-    working_dir: /var/www
+    ports:
+      - "9352:9352"
     volumes:
-      - ./:/var/www
-    networks:
-      - laravel
+      - ./:/var/www/html
+      - ./.env:/var/www/.env
+    environment:
+      DB_DATABASE: algrotech
+      DB_USERNAME: algrotechUser
+      DB_PASSWORD: Agro@Db12Pass
     depends_on:
       - db
       - redis
 
-  webserver:
-    image: nginx:alpine
-    container_name: laravel-nginx
-    restart: unless-stopped
-    ports:
-      - "3030:80"
-    volumes:
-      - ./:/var/www
-      - ./docker/nginx:/etc/nginx/conf.d
-    networks:
-      - laravel
-    depends_on:
-      - app
-
   db:
     image: mysql:8.0
     container_name: algrotech-db
-    restart: unless-stopped
     environment:
       MYSQL_DATABASE: algrotech
-      MYSQL_ROOT_PASSWORD: Agro@Db12Pass
       MYSQL_USER: algrotechUser
       MYSQL_PASSWORD: Agro@Db12Pass
+      MYSQL_ROOT_PASSWORD: Agro@Db12Pass
     ports:
-      - "33061:3306"
+      - "3307:3306"
     volumes:
       - dbdata:/var/lib/mysql
-    networks:
-      - laravel
 
   redis:
     image: redis:alpine
-    container_name: laravel-redis
-    restart: unless-stopped
+    container_name: algrotech-redis
     ports:
       - "6379:6379"
-    networks:
-      - laravel
-
-networks:
-  laravel:
-    driver: bridge
 
 volumes:
   dbdata:
-    driver: local
