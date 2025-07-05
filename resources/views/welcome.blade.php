@@ -66,6 +66,7 @@
                     <a href="#how-it-works" class="hover:text-green-medium transition-colors duration-300">How It Works</a>
                     <a href="#blockchain" class="hover:text-green-medium transition-colors duration-300">Blockchain</a>
                     <a href="#contact" class="hover:text-green-medium transition-colors duration-300">Contact</a>
+                    
                     <div class="flex items-center space-x-4 ml-8">
                         <a href="/user" class="glass-effect px-6 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all duration-300 hover:scale-105">
                             Login
