@@ -339,8 +339,9 @@
 
 function generateQR(button) {
     const cropId = button.dataset.cropId;
-
-    const qrData = `http://localhost:8000/crop/${cropId}`; // عدل للدومين الحقيقي عند النشر
+    const Url = @json($qrUrl->qrUrl); 
+    
+    const qrData = `${Url}${cropId}`; 
 
     const qrContainer = document.getElementById('qrCodeContainer');
     qrContainer.innerHTML = ''; 
