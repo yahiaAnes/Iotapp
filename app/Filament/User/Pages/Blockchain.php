@@ -5,6 +5,7 @@ namespace App\Filament\User\Pages;
 use Filament\Pages\Page;
 use App\Models\Crops;
 use App\Models\Farm;
+use App\Models\QrUrl;
 use Illuminate\Http\Request;
 
 class Blockchain extends Page
@@ -16,6 +17,7 @@ class Blockchain extends Page
 
     public array $crops = [];
     public array $farms = [];
+    public ?QrUrl $qrUrl = null;
 
     public function mount()
     {
@@ -48,6 +50,8 @@ class Blockchain extends Page
             ->where('user_id', auth()->id())
             ->get()
             ->toArray();
+            
+        $this->qrUrl = QrUrl::first();
     }
 
 }
