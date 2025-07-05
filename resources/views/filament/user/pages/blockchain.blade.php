@@ -340,10 +340,10 @@
 function generateQR(button) {
     const cropId = button.dataset.cropId;
 
-    const qrData = `http://localhost:8000/crop/${cropId}`; // عدل للدومين الحقيقي عند النشر
+    const qrData = `http://localhost:8000/crop/${cropId}`; 
 
     const qrContainer = document.getElementById('qrCodeContainer');
-    qrContainer.innerHTML = ''; // مسح QR السابق
+    qrContainer.innerHTML = ''; 
 
     new QRCode(qrContainer, {
         text: qrData,
