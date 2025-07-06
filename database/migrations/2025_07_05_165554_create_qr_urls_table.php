@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
         DB::table('qr_urls')->insert([
-            'qrUrl' => 'http://localhost:8000/crop/',
+            'qrUrl' => 'https://algrotech.univ-setif.dz/crop/',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

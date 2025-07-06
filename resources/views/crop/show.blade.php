@@ -539,7 +539,7 @@ tr:hover td {
             try {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-                const contractAddress = "0x8570189a5AEb7b35ad3B4cDc8f9aeB4cbd507F54";
+                const contractAddress = "0x2ABf97E01653C190e79802e6696d1f4f0001b860";
 
                 const abi = [  {
       "anonymous": false,
