@@ -109,12 +109,12 @@
                     ensure their traceability and facilitate export according to international standards
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="bg-gradient-to-r from-green-medium to-green-dark hover:from-green-medium-2 hover:to-green-dark-2 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-green-medium/25 hover:scale-105 text-white">
-                        Discover Our Solutions
-                    </button>
-                    <button class="glass-effect px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:bg-white hover:bg-opacity-20 hover:scale-105">
-                        View Demo
-                    </button>
+                    <a href="#about">
+                        <button class="bg-gradient-to-r from-green-medium to-green-dark hover:from-green-medium-2 hover:to-green-dark-2 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-green-medium/25 hover:scale-105 text-white">
+                            Discover Our Solutions
+                        </button>
+                    </a>
+                   
                 </div>
             </div>
         </div>

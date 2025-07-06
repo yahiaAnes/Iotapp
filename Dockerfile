@@ -40,11 +40,6 @@ RUN mkdir -p storage/app/public \
 # Copy project files 
 COPY . .
 
-<<<<<<< HEAD
-# Expose port 9324 and start php-fpm server
-EXPOSE 9324
-CMD ["php-fpm"]
-=======
 # Generate optimized autoloader
 RUN composer dump-autoload --optimize
 
@@ -57,4 +52,3 @@ EXPOSE 9352
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 ENTRYPOINT ["/usr/local/bin/start.sh"]
->>>>>>> 10532bd3be467063493a0d75b767dd26a3e031f5
